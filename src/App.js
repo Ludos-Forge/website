@@ -10,7 +10,7 @@ const sections = [
 export default function LandingPage() {
   const [currentSection, setCurrentSection] = useState(0);
   const containerRef = useRef(null);
-  const controls = useAnimation();
+  // const controls = useAnimation();
 
   useEffect(() => {
     const handleWheel = (e) => {
