@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { motion, useAnimation } from "framer-motion";
+import { motion } from "framer-motion";
 import logo from "./assets/logo.png"; // Ensure you have a logo image in the same directory
 const sections = [
   { id: "home", label: "Home" },
@@ -10,7 +10,6 @@ const sections = [
 export default function LandingPage() {
   const [currentSection, setCurrentSection] = useState(0);
   const containerRef = useRef(null);
-  // const controls = useAnimation();
 
   useEffect(() => {
     const handleWheel = (e) => {
