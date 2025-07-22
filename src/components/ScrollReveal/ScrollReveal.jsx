@@ -25,76 +25,75 @@ const ScrollReveal = ({
         if (Array.isArray(node)) return node.map(extractText).join(' ');
         if (node && node.props && node.props.children) return extractText(node.props.children);
         return '';
-    }, [node]);
-}
+    }, []);
 
-const splitText = useMemo(() => {
-    if (typeof children === 'string') {
-        const text = extractText(children);
-        return text.split(/(\s+)/).map((word, index) => {
-            if (word.match(/^\s+$/)) return word;
-            return (
-                <span className="word" key={index}>
-                    {word}
-                </span>
-            );
-        });
-    } else if (Array.isArray(children)) {
-        return children.map((child, idx) => (
-            <span className="word" key={idx}>{child}</span>
-        ));
-    } else if (children && typeof children === 'object') {
-        // Singolo componente React
-        return <span className="word">{children}</span>;
-    } else {
-        return null;
-    }
-}, [children, extractText]);
-
-useEffect(() => {
-    if (!active) return;
-    const textEl = textRef.current;
-    if (!textEl) {
-        console.warn('ScrollReveal: textRef non trovato');
-        return;
-    }
-    const wordElements = textEl.querySelectorAll('.word');
-    console.log('ScrollReveal wordElements:', wordElements);
-
-    // Animazione automatica, non vincolata allo scroll
-    gsap.fromTo(
-        wordElements,
-        { opacity: baseOpacity, willChange: 'opacity', filter: enableBlur ? `blur(${blurStrength}px)` : 'none' },
-        {
-            opacity: 1,
-            filter: 'blur(0px)',
-            stagger: 0.05,
-            duration: 0.8,
-            ease: 'power2.out',
-            delay: 0.2,
+    const splitText = useMemo(() => {
+        if (typeof children === 'string') {
+            const text = extractText(children);
+            return text.split(/(\s+)/).map((word, index) => {
+                if (word.match(/^\s+$/)) return word;
+                return (
+                    <span className="word" key={index}>
+                        {word}
+                    </span>
+                );
+            });
+        } else if (Array.isArray(children)) {
+            return children.map((child, idx) => (
+                <span className="word" key={idx}>{child}</span>
+            ));
+        } else if (children && typeof children === 'object') {
+            // Singolo componente React
+            return <span className="word">{children}</span>;
+        } else {
+            return null;
         }
+    }, [children, extractText]);
+
+    useEffect(() => {
+        if (!active) return;
+        const textEl = textRef.current;
+        if (!textEl) {
+            console.warn('ScrollReveal: textRef non trovato');
+            return;
+        }
+        const wordElements = textEl.querySelectorAll('.word');
+        console.log('ScrollReveal wordElements:', wordElements);
+
+        // Animazione automatica, non vincolata allo scroll
+        gsap.fromTo(
+            wordElements,
+            { opacity: baseOpacity, willChange: 'opacity', filter: enableBlur ? `blur(${blurStrength}px)` : 'none' },
+            {
+                opacity: 1,
+                filter: 'blur(0px)',
+                stagger: 0.05,
+                duration: 0.8,
+                ease: 'power2.out',
+                delay: 0.2,
+            }
+        );
+
+        return () => {
+            gsap.killTweensOf(wordElements);
+        };
+    }, [children, enableBlur, baseOpacity, blurStrength, active]);
+
+    // Forza uno stile minimo per il contenitore
+    return (
+        <h2 ref={containerRef} className={`scroll-reveal ${containerClassName}`} style={{ minHeight: 80, display: 'block' }}>
+            <p
+                ref={textRef}
+                className={`scroll-reveal-text ${textClassName}`}
+                style={{
+                    color: textClassName === 'white-text' ? 'white' : undefined,
+                    fontSize: fontSize || undefined
+                }}
+            >
+                {splitText}
+            </p>
+        </h2>
     );
-
-    return () => {
-        gsap.killTweensOf(wordElements);
-    };
-}, [children, enableBlur, baseOpacity, blurStrength, active]);
-
-// Forza uno stile minimo per il contenitore
-return (
-    <h2 ref={containerRef} className={`scroll-reveal ${containerClassName}`} style={{ minHeight: 80, display: 'block' }}>
-        <p
-            ref={textRef}
-            className={`scroll-reveal-text ${textClassName}`}
-            style={{
-                color: textClassName === 'white-text' ? 'white' : undefined,
-                fontSize: fontSize || undefined
-            }}
-        >
-            {splitText}
-        </p>
-    </h2>
-);
 };
 
 export default ScrollReveal;
