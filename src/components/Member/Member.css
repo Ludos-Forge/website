@@ -1,0 +1,87 @@
+/* Layout generale della card */
+.profile-card {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  width: 100%;
+  background: #fff;
+  border: 1px solid #e5e7eb; /* grigio chiaro */
+  border-radius: 8px;
+  padding: 16px 20px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.is-reversed {
+  flex-direction: row-reverse;
+}
+
+
+/* Avatar quadrato a sinistra */
+.avatar {
+  width: 96px;
+  height: 96px;
+  flex-shrink: 0;
+  border-radius: 4px;
+  background: #f3f4f6; /* grigio molto chiaro */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatar-placeholder {
+  font-size: 2rem;
+  color: #9ca3af; /* grigio medio */
+}
+
+/* Testo */
+.info .name {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #111827; /* quasi nero */
+}
+
+.info .role {
+  margin: 2px 0 16px;
+  font-size: 0.9375rem;
+  color: #6b7280; /* grigio */
+}
+
+/* Pulsanti social */
+.social-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+  text-decoration: none;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  padding: 6px 12px;
+  transition: background 0.15s;
+}
+
+.btn svg {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+}
+
+.btn:hover {
+  background: #f3f4f6;
+}

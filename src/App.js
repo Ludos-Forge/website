@@ -6,6 +6,7 @@ import ScrollReveal from "./components/ScrollReveal/ScrollReveal";
 import logo from "./assets/logo.png";
 import Member from "./components/Member";
 import members from "./members.json";
+import TextType from "./components/TextType";
 
 const sections = [
   { id: "home", label: "Home" },
@@ -125,11 +126,10 @@ export default function LandingPage() {
           justifyContent: "center",
           alignItems: "center",
           position: "absolute",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "100%",
+          top: "50%",
+          left: "50%",
           zIndex: 1,
+          transform: "translate(-50%, -50%)",
         }}
       >
         <motion.div
@@ -162,23 +162,26 @@ export default function LandingPage() {
             <div
               style={{
                 position: "absolute",
-                top: 0,
-                left: 0,
-                width: "100%",
-                height: "100%",
+                top: "20%",
+                left: "50%",
                 display: "flex",
-                justifyContent: "center",
+                // justifyContent: "center",
+                textAlign: "start",
                 paddingTop: "200px",
-                fontSize: "larger",
+                transform: "translate(-50%, -50%)",
+                fontSize: "2.2em",
+                width: "419px",
                 zIndex: 1,
               }}
             >
-              <h1>
-                <span style={{ color: "black" }}>LUDOS </span>
-                <span style={{ color: "white", backgroundColor: "black" }}>
-                  FORGE
-                </span>
-              </h1>
+              <TextType
+                text={["Ludos Forge"]}
+                as="h1"
+                typingSpeed={250}
+                pauseDuration={1500}
+                showCursor={true}
+                cursorCharacter="|"
+              />
             </div>
           )}
 
@@ -216,17 +219,15 @@ export default function LandingPage() {
               {index === 2 && (
                 <>
                   <h2 style={{ color: "black", fontSize: "2.5rem" }}>Team</h2>
-                  <ScrollReveal
-                    enableBlur={true}
-                    baseRotation={0}
-                    blurStrength={10}
-                    active={currentSection === 1}
-                    fontSize={"2rem"}
-                  >
-                    {members.map((member, index) => (
-                      <Member key={index} member={member} />
-                    ))}
-                  </ScrollReveal>
+                  {members.map((member, index) => (
+                    <Member
+                      key={index}
+                      index={index}
+                      member={member}
+                      reverse={index % 2 === 0}
+                      className="p-b-2"
+                    />
+                  ))}
                 </>
               )}
             </div>

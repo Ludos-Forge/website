@@ -3,33 +3,27 @@
     "name": "Antonio Facciuti",
     "role": "Game Designer & Developer",
     "image": "/assets/antonio.png",
-    "socialLinks": [
-      { "url": "https://github.com/antonio", "icon": "🐙" },
-      { "url": "https://linkedin.com/in/antonio", "icon": "🔗" }
-    ]
+    "links": {
+      "github": "https://github.com/antonio",
+      "linkedin": "https://linkedin.com/in/antonio"
+    }
   },
   {
     "name": "Giulia Rossi",
     "role": "Art Director",
     "image": "/assets/giulia.png",
-    "socialLinks": [
-      { "url": "https://instagram.com/giulia", "icon": "📸" }
-    ]
+    "links": [{ "instagram": "https://instagram.com/giulia" }]
   },
   {
     "name": "Luca Bianchi",
     "role": "Lead Programmer",
     "image": "/assets/luca.png",
-    "socialLinks": [
-      { "url": "https://github.com/luca", "icon": "🐙" }
-    ]
+    "links": { "github": "https://github.com/luca" }
   },
   {
     "name": "Sara Verdi",
     "role": "Narrative Designer",
     "image": "/assets/sara.png",
-    "socialLinks": [
-      { "url": "https://twitter.com/sara", "icon": "🐦" }
-    ]
+    "links": { "twitter": "https://twitter.com/sara" }
   }
 ]

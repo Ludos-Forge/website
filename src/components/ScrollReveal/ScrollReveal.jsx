@@ -40,11 +40,11 @@ const ScrollReveal = ({
             });
         } else if (Array.isArray(children)) {
             return children.map((child, idx) => (
-                <span className="word" key={idx}>{child}</span>
+                <div className={`w-full word`} key={idx}>{child}</div>
             ));
         } else if (children && typeof children === 'object') {
             // Singolo componente React
-            return <span className="word">{children}</span>;
+            return <div className={`w-full word`}>{children}</div>;
         } else {
             return null;
         }
@@ -80,9 +80,9 @@ const ScrollReveal = ({
     }, [children, enableBlur, baseOpacity, blurStrength, active]);
 
     // Forza uno stile minimo per il contenitore
-    return (
-        <h2 ref={containerRef} className={`scroll-reveal ${containerClassName}`} style={{ minHeight: 80, display: 'block' }}>
-            <p
+    if (children && (typeof children === 'object' || Array.isArray(children))) {
+        return (<div ref={containerRef} className={`scroll-reveal ${containerClassName}`} style={{ minHeight: 80, display: 'block' }}>
+            <div
                 ref={textRef}
                 className={`scroll-reveal-text ${textClassName}`}
                 style={{
@@ -91,9 +91,25 @@ const ScrollReveal = ({
                 }}
             >
                 {splitText}
-            </p>
-        </h2>
-    );
+            </div>
+        </div>)
+    } else {
+        return (
+
+            <h2 ref={containerRef} className={`scroll-reveal ${containerClassName}`} style={{ minHeight: 80, display: 'block' }}>
+                <p
+                    ref={textRef}
+                    className={`scroll-reveal-text ${textClassName}`}
+                    style={{
+                        color: textClassName === 'white-text' ? 'white' : undefined,
+                        fontSize: fontSize || undefined
+                    }}
+                >
+                    {splitText}
+                </p>
+            </h2>
+        );
+    }
 };
 
 export default ScrollReveal;
