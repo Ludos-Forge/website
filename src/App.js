@@ -1,6 +1,12 @@
-import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import logo from "./assets/logo.png"; // Ensure you have a logo image in the same directory
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useEffect, useRef, useState } from "react";
+import ScrollReveal from "./components/ScrollReveal/ScrollReveal";
+
+import logo from "./assets/logo.png";
+import Member from "./components/Member";
+import members from "./members.json";
+
 const sections = [
   { id: "home", label: "Home" },
   { id: "vision-mission", label: "Vision/Mission" },
@@ -10,18 +16,46 @@ const sections = [
 export default function LandingPage() {
   const [currentSection, setCurrentSection] = useState(0);
   const containerRef = useRef(null);
+  const scrollLockRef = useRef(false);
+  const lastDeltaY = useRef(0);
+  const animationFrame = useRef(null);
 
   useEffect(() => {
     const handleWheel = (e) => {
       e.preventDefault();
-      if (e.deltaY > 0 && currentSection < sections.length - 1) {
-        setCurrentSection((prev) => prev + 1);
-      } else if (e.deltaY < 0 && currentSection > 0) {
-        setCurrentSection((prev) => prev - 1);
+
+      if (scrollLockRef.current) return;
+
+      const direction = e.deltaY > 0 ? 1 : -1;
+      const next = currentSection + direction;
+
+      if (next >= 0 && next < sections.length) {
+        setCurrentSection(next);
+        scrollLockRef.current = true;
+      }
+
+      lastDeltaY.current = e.deltaY;
+      if (!animationFrame.current) {
+        animationFrame.current = requestAnimationFrame(checkScrollStopped);
       }
     };
+
+    const checkScrollStopped = () => {
+      animationFrame.current = null;
+
+      if (Math.abs(lastDeltaY.current) < 1) {
+        scrollLockRef.current = false;
+      } else {
+        lastDeltaY.current *= 0.8;
+        animationFrame.current = requestAnimationFrame(checkScrollStopped);
+      }
+    };
+
     window.addEventListener("wheel", handleWheel, { passive: false });
-    return () => window.removeEventListener("wheel", handleWheel);
+    return () => {
+      window.removeEventListener("wheel", handleWheel);
+      if (animationFrame.current) cancelAnimationFrame(animationFrame.current);
+    };
   }, [currentSection]);
 
   useEffect(() => {
@@ -29,6 +63,18 @@ export default function LandingPage() {
       top: window.innerHeight * currentSection,
       behavior: "smooth",
     });
+
+    if (currentSection === 1) {
+      setTimeout(() => {
+        if (window.ScrollTrigger) {
+          window.ScrollTrigger.refresh();
+          window.ScrollTrigger.update();
+        } else if (ScrollTrigger) {
+          ScrollTrigger.refresh();
+          ScrollTrigger.update();
+        }
+      }, 400);
+    }
   }, [currentSection]);
 
   return (
@@ -36,6 +82,42 @@ export default function LandingPage() {
       ref={containerRef}
       style={{ height: "100vh", overflow: "hidden", scrollBehavior: "smooth" }}
     >
+      <nav
+        style={{
+          position: "fixed",
+          top: 24,
+          right: 32,
+          zIndex: 100,
+          background: "rgba(255,255,255,0.85)",
+          borderRadius: 8,
+          boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+          padding: "0.5rem 1.2rem",
+          display: "flex",
+          gap: 16,
+          alignItems: "center",
+        }}
+      >
+        {sections.map((section, idx) => (
+          <button
+            key={section.id}
+            onClick={() => setCurrentSection(idx)}
+            style={{
+              background: idx === currentSection ? "#222" : "transparent",
+              color: idx === currentSection ? "#fff" : "#222",
+              border: "none",
+              borderRadius: 4,
+              padding: "0.4rem 0.9rem",
+              fontWeight: 600,
+              cursor: "pointer",
+              fontSize: "1rem",
+              transition: "background 0.2s, color 0.2s",
+            }}
+          >
+            {section.label}
+          </button>
+        ))}
+      </nav>
+
       <div
         style={{
           display: "flex",
@@ -62,6 +144,7 @@ export default function LandingPage() {
           />
         </motion.div>
       </div>
+
       {sections.map((section, index) => (
         <div
           key={section.id}
@@ -75,7 +158,6 @@ export default function LandingPage() {
             overflow: "hidden",
           }}
         >
-          {/* Split background */}
           {index === 0 && (
             <div
               style={{
@@ -99,6 +181,7 @@ export default function LandingPage() {
               </h1>
             </div>
           )}
+
           <div
             style={{
               position: "absolute",
@@ -110,15 +193,45 @@ export default function LandingPage() {
               zIndex: 0,
             }}
           >
-            <div style={{ margin: "15%" }}>
+            <div style={{ margin: "20%" }}>
               {index === 1 && (
-                <h2 style={{ color: "black", fontSize: "2rem" }}>Vision</h2>
+                <>
+                  <h2 style={{ color: "black", fontSize: "2.5rem" }}>Vision</h2>
+                  <ScrollReveal
+                    enableBlur={true}
+                    baseRotation={0}
+                    blurStrength={10}
+                    active={currentSection === 1}
+                    fontSize={"2rem"}
+                  >
+                    We bring to life the worlds we’ve always dreamed of as
+                    gamers. We envision a future where every indie developer can
+                    turn their passion into authentic, innovative, and
+                    unforgettable gaming experiences. A world where creativity
+                    knows no limits, and every team member's voice helps shape
+                    the adventure.
+                  </ScrollReveal>
+                </>
               )}
               {index === 2 && (
-                <h2 style={{ color: "black", fontSize: "2rem" }}>Team</h2>
+                <>
+                  <h2 style={{ color: "black", fontSize: "2.5rem" }}>Team</h2>
+                  <ScrollReveal
+                    enableBlur={true}
+                    baseRotation={0}
+                    blurStrength={10}
+                    active={currentSection === 1}
+                    fontSize={"2rem"}
+                  >
+                    {members.map((member, index) => (
+                      <Member key={index} member={member} />
+                    ))}
+                  </ScrollReveal>
+                </>
               )}
             </div>
           </div>
+
           <div
             style={{
               position: "absolute",
@@ -130,12 +243,33 @@ export default function LandingPage() {
               zIndex: 0,
             }}
           >
-            <div style={{ margin: "15%" }}>
+            <div style={{ margin: "20%", textAlign: "end" }}>
               {index === 1 && (
-                <h2 style={{ color: "white", fontSize: "2rem" }}>Mission</h2>
+                <>
+                  <h2 style={{ color: "white", fontSize: "2.5rem" }}>
+                    Mission
+                  </h2>
+                  <ScrollReveal
+                    enableBlur={true}
+                    baseRotation={0}
+                    blurStrength={10}
+                    textClassName="white-text"
+                    active={currentSection === 1}
+                    fontSize={"2rem"}
+                  >
+                    We forge video games with passion, creative freedom, and
+                    collective spirit. Ludos Forge was born from the desire to
+                    create indie games that reflect what made us fall in love
+                    with gaming: engaging stories, original mechanics, and
+                    vibrant worlds. We believe in an open development
+                    environment, where every idea matters and each team member
+                    contributes to the creative process. Every game is a
+                    challenge, a dream, and a love letter to those who play.
+                  </ScrollReveal>
+                </>
               )}
               {index === 2 && (
-                <h2 style={{ color: "white", fontSize: "2rem" }}>Projects</h2>
+                <h2 style={{ color: "white", fontSize: "2.5rem" }}>Projects</h2>
               )}
             </div>
           </div>
