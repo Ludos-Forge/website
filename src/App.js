@@ -18,8 +18,6 @@ export default function LandingPage() {
   const [currentSection, setCurrentSection] = useState(0);
   const containerRef = useRef(null);
   const scrollLockRef = useRef(false);
-  const lastDeltaY = useRef(0);
-  const animationFrame = useRef(null);
 
   useEffect(() => {
     const handleWheel = (e) => {
