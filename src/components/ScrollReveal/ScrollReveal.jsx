@@ -48,7 +48,7 @@ const ScrollReveal = ({
         } else {
             return null;
         }
-    }, [children]);
+    }, [children, extractText]);
 
     useEffect(() => {
         if (!active) return;
