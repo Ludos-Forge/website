@@ -24,38 +24,21 @@ export default function LandingPage() {
   useEffect(() => {
     const handleWheel = (e) => {
       e.preventDefault();
-
       if (scrollLockRef.current) return;
-
       const direction = e.deltaY > 0 ? 1 : -1;
       const next = currentSection + direction;
-
       if (next >= 0 && next < sections.length) {
         setCurrentSection(next);
         scrollLockRef.current = true;
-      }
-
-      lastDeltaY.current = e.deltaY;
-      if (!animationFrame.current) {
-        animationFrame.current = requestAnimationFrame(checkScrollStopped);
-      }
-    };
-
-    const checkScrollStopped = () => {
-      animationFrame.current = null;
-
-      if (Math.abs(lastDeltaY.current) < 1) {
-        scrollLockRef.current = false;
-      } else {
-        lastDeltaY.current *= 0.8;
-        animationFrame.current = requestAnimationFrame(checkScrollStopped);
+        setTimeout(() => {
+          scrollLockRef.current = false;
+        }, 900); // tempo di blocco dopo ogni scroll
       }
     };
 
     window.addEventListener("wheel", handleWheel, { passive: false });
     return () => {
       window.removeEventListener("wheel", handleWheel);
-      if (animationFrame.current) cancelAnimationFrame(animationFrame.current);
     };
   }, [currentSection]);
 
