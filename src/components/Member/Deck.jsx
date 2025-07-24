@@ -9,7 +9,6 @@ export default function Deck(members) {
   const ref = useRef(null);
 
   // click sul bordo (card dietro) = vai a quella card
-  const jumpTo = (index) => ref.current?.swipeTo(index);
   console.log("members", members);
   return (
 

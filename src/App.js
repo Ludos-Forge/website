@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import ScrollReveal from "./components/ScrollReveal/ScrollReveal";
 
 import logo from "./assets/logo.png";
-import Member from "./components/Member";
 import members from "./members.json";
 import TextType from "./components/TextType";
 import Deck from "./components/Member/Deck";
