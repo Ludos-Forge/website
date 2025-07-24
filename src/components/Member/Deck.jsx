@@ -5,10 +5,6 @@ import Member from "./Member";
 
 
 export default function Deck(members) {
-  // reference a StackCard per pilotarlo via ref
-  const ref = useRef(null);
-
-  // click sul bordo (card dietro) = vai a quella card
   console.log("members", members);
   return (
 
