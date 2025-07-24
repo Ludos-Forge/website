@@ -41,11 +41,6 @@ const TextType = ({
     return Math.random() * (max - min) + min;
   };
 
-  const getCurrentTextColor = () => {
-    if (textColors.length === 0) return "#ffffff";
-    return textColors[currentTextIndex % textColors.length];
-  };
-
   useEffect(() => {
     if (!startOnVisible || !containerRef.current) return;
 
@@ -155,7 +150,7 @@ const TextType = ({
     (currentCharIndex < textArray[currentTextIndex].length || isDeleting);
 
   // Funzione per alternare i colori tra bianco e nero
-  const getAlternatingColor = (index) => (index % 2 === 0 ? '#000' : '#fff');
+  const getAlternatingColor = (index = 0) => (index % 2 === 0 ? '#000' : '#fff');
 
   // Rendering custom: ogni parola alterna colore
   const renderColoredText = () => {
@@ -165,12 +160,19 @@ const TextType = ({
     return filteredParts.map((part, idx) => {
       // Se è solo spazio, lo restituisco così com'è
       // Altrimenti applico colore alternato
-      if (cursorRef.current) {
-        // Imposta il colore del cursore in base al testo corrente
-        cursorRef.current.style.color = getCurrentTextColor(idx);
-      }
       return (
-        <span key={idx} style={{ color: getAlternatingColor(idx) }}>{(idx !== filteredParts.length-1) ? part + "  " : part }</span>
+        <>
+          <span key={idx} style={{ color: getAlternatingColor(idx) }}>{(idx !== filteredParts.length - 1) ? part + "  " : part}</span>
+          {shouldShowCursor && (
+            <span
+              ref={cursorRef}
+              style={{ color: getAlternatingColor(idx) }}
+              className={`text-type__cursor text-7xl ${cursorClassName} ${shouldHideCursor ? "text-type__cursor--hidden" : ""}`}
+            >
+              {cursorCharacter}
+            </span>
+          )}
+        </>
       );
     });
   };
@@ -190,14 +192,7 @@ const TextType = ({
     <span className="text-type__content">
       {renderColoredText()}
     </span>,
-    shouldShowCursor && (
-      <span
-        ref={cursorRef}
-        className={`text-type__cursor text-7xl ${cursorClassName} ${shouldHideCursor ? "text-type__cursor--hidden" : ""}`}
-      >
-        {cursorCharacter}
-      </span>
-    )
+
   );
 };
 
