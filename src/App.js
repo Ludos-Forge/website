@@ -7,6 +7,7 @@ import logo from "./assets/logo.png";
 import Member from "./components/Member";
 import members from "./members.json";
 import TextType from "./components/TextType";
+import Deck from "./components/Member/Deck";
 
 const sections = [
   { id: "home", label: "Home" },
@@ -148,7 +149,6 @@ export default function LandingPage() {
                 display: "flex",
                 textAlign: "start",
                 transform: "translate(-50%, -50%)",
-                fontSize: "2.2em",
                 width: "419px",
                 zIndex: 1,
               }}
@@ -175,7 +175,7 @@ export default function LandingPage() {
               zIndex: 0,
             }}
           >
-            <div style={{ margin: "20%" }}>
+            <div class="h-full" style={{ margin: "10% 20%" }}>
               {index === 1 && (
                 <>
                   <h2 style={{ color: "black", fontSize: "2.5rem" }}>Vision</h2>
@@ -198,7 +198,8 @@ export default function LandingPage() {
               {index === 2 && (
                 <>
                   <h2 style={{ color: "black", fontSize: "2.5rem" }}>Team</h2>
-                  {members.map((member, index) => (
+                  <Deck members={members} />
+                  {/* {members.map((member, index) => (
                     <Member
                       key={index}
                       index={index}
@@ -206,7 +207,7 @@ export default function LandingPage() {
                       reverse={index % 2 === 0}
                       className="p-b-2"
                     />
-                  ))}
+                  ))} */}
                 </>
               )}
             </div>
@@ -223,7 +224,7 @@ export default function LandingPage() {
               zIndex: 0,
             }}
           >
-            <div style={{ margin: "20%", textAlign: "end" }}>
+            <div style={{ margin: "10% 20%", textAlign: "end" }}>
               {index === 1 && (
                 <>
                   <h2 style={{ color: "white", fontSize: "2.5rem" }}>

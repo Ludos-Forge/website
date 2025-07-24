@@ -1,0 +1,47 @@
+[
+  {
+    "name": "Antonio Facciuti",
+    "role": "Public Relations & Web Developer",
+    "image": "/assets/antonio.png",
+    "links": {
+      "github": "https://github.com/toxin95",
+      "linkedin": "https://www.linkedin.com/in/antonio-facciuti/"
+    }
+  },
+  {
+    "name": "Andrea Carbone",
+    "role": "Game Artist",
+    "image": "/assets/giulia.png",
+    "links": [{ "linkedin": "https://www.linkedin.com/in/andrea-carbone-1a3047317/", "artstation": "https://www.artstation.com/andreacarbone" }]
+  },
+  {
+    "name": "Samuele Angeletti",
+    "role": "Lead Programmer",
+    "image": "/assets/luca.png",
+    "links": { "website": "https://samudev.ezyro.com", "itch": "https://samu-dev-20.itch.io/", "github": "https://github.com/Samuele-Angeletti" }
+  },
+  {
+    "name": "Mihai Antonio Alexandrescu",
+    "role": "Game Designer /QA",
+    "image": "/assets/sara.png",
+    "links": { "linkedin": "https://www.linkedin.com/in/mihai-antonio-alexandrescu-5822a7358/", "instagram": "https://www.instagram.com/anthonik22/" }
+  },
+  {
+    "name": "Matteo Giovannini",
+    "role": "Game Programmer",
+    "image": "/assets/sara.png",
+    "links": { "linkedin": "https://www.linkedin.com/in/matteo-giovannini-36439617b/" }
+  },
+  {
+    "name": "Matteo Giovannini",
+    "role": "Game Programmer",
+    "image": "/assets/sara.png",
+    "links": { "linkedin": "https://www.linkedin.com/in/matteo-giovannini-36439617b/" }
+  },
+  {
+    "name": "Matteo Giovannini",
+    "role": "Game Programmer",
+    "image": "/assets/sara.png",
+    "links": { "linkedin": "https://www.linkedin.com/in/matteo-giovannini-36439617b/" }
+  }
+]

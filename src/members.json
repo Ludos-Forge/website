@@ -1,29 +1,11 @@
 [
   {
     "name": "Antonio Facciuti",
-    "role": "Game Designer & Developer",
-    "image": "/assets/antonio.png",
+    "role": "Public Relations & Web Developer",
+    "image": "./assets/antonio.jpg",
     "links": {
-      "github": "https://github.com/antonio",
-      "linkedin": "https://linkedin.com/in/antonio"
+      "github": "https://github.com/toxin95",
+      "linkedin": "https://www.linkedin.com/in/antonio-facciuti/"
     }
-  },
-  {
-    "name": "Giulia Rossi",
-    "role": "Art Director",
-    "image": "/assets/giulia.png",
-    "links": [{ "instagram": "https://instagram.com/giulia" }]
-  },
-  {
-    "name": "Luca Bianchi",
-    "role": "Lead Programmer",
-    "image": "/assets/luca.png",
-    "links": { "github": "https://github.com/luca" }
-  },
-  {
-    "name": "Sara Verdi",
-    "role": "Narrative Designer",
-    "image": "/assets/sara.png",
-    "links": { "twitter": "https://twitter.com/sara" }
   }
 ]

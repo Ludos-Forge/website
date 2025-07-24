@@ -184,7 +184,7 @@ const TextType = ({
     Component,
     {
       ref: containerRef,
-      className: `text-type ${className}`,
+      className: `text-type font-['Times_New_Roman'] text-7xl ${className}`,
       ...props,
     },
     <span className="text-type__content">
@@ -193,7 +193,7 @@ const TextType = ({
     shouldShowCursor && (
       <span
         ref={cursorRef}
-        className={`text-type__cursor ${cursorClassName} ${shouldHideCursor ? "text-type__cursor--hidden" : ""}`}
+        className={`text-type__cursor text-7xl ${cursorClassName} ${shouldHideCursor ? "text-type__cursor--hidden" : ""}`}
       >
         {cursorCharacter}
       </span>
