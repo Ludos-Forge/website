@@ -15,7 +15,7 @@ const TextType = ({
   className = "",
   showCursor = true,
   hideCursorWhileTyping = false,
-  cursorCharacter = "|",
+  cursorCharacter = "▌",
   cursorClassName = "",
   cursorBlinkDuration = 0.5,
   textColors = [],
@@ -145,9 +145,9 @@ const TextType = ({
     onSentenceComplete,
   ]);
 
-  const shouldHideCursor =
-    hideCursorWhileTyping &&
-    (currentCharIndex < textArray[currentTextIndex].length || isDeleting);
+  // const shouldHideCursor =
+  //   hideCursorWhileTyping &&
+  //   (currentCharIndex < textArray[currentTextIndex].length || isDeleting);
 
   // Funzione per alternare i colori tra bianco e nero
   const getAlternatingColor = (index = 0) => (index % 2 === 0 ? '#000' : '#fff');
@@ -158,24 +158,29 @@ const TextType = ({
     const parts = displayedText.split(/(\s+)/);
     const filteredParts = parts.filter(part => !/^\s+$/.test(part));
     return filteredParts.map((part, idx) => {
+      const regex = new RegExp(`\\b${part}\\b`, 'i');
       // Se è solo spazio, lo restituisco così com'è
       // Altrimenti applico colore alternato
       return (
         <>
-          <span key={idx} style={{ color: getAlternatingColor(idx) }}>{(idx !== filteredParts.length - 1) ? part + "  " : part}</span>
-          {shouldShowCursor && (
-            <span
-              ref={cursorRef}
-              style={{ color: getAlternatingColor(idx) }}
-              className={`text-type__cursor text-7xl ${cursorClassName} ${shouldHideCursor ? "text-type__cursor--hidden" : ""}`}
-            >
-              {cursorCharacter}
-            </span>
-          )}
+          <span key={idx} style={{ color: getAlternatingColor(idx) }}>{(idx !== filteredParts.length - 1) ? part + "   " : part}</span>
+          {renderCursor(idx, regex.test(textArray[0]))}
         </>
       );
     });
   };
+
+  const renderCursor = (idx, hide = false) => {
+    return (shouldShowCursor && (
+      <span
+        ref={cursorRef}
+        style={{ color: getAlternatingColor(idx) }}
+        className={`text-type__cursor text-7xl ${cursorClassName} ${hide ? "text-type__cursor--hidden" : ""}`}
+      >
+        {cursorCharacter}
+      </span>
+    ))
+  }
 
   // Mostra il cursore solo se la digitazione è in corso, in cancellazione, oppure se il loop è attivo
   const isTypingOrDeleting =
@@ -191,6 +196,7 @@ const TextType = ({
     },
     <span className="text-type__content">
       {renderColoredText()}
+
     </span>,
 
   );

@@ -148,17 +148,16 @@ export default function LandingPage() {
                 display: "flex",
                 textAlign: "start",
                 transform: "translate(-50%, -50%)",
-                width: "419px",
+                width: "425px",
                 zIndex: 1,
               }}
             >
               <TextType
-                text={["Ludos Forge"]}
+                text={"Ludos Forge"}
                 as="h1"
                 typingSpeed={250}
                 pauseDuration={1500}
                 showCursor={true}
-                cursorCharacter="|"
               />
             </div>
           )}
