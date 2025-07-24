@@ -156,10 +156,9 @@ const TextType = ({
   const renderColoredText = () => {
     // Split il testo digitato in parole e spazi
     const parts = displayedText.split(/(\s+)/);
-    // const filteredParts = parts.filter(part => !/^\s+$/.test(part));
-    return parts.map((part, idx) => {
+    const filteredParts = parts.filter(part => !/^\s+$/.test(part));
+    return filteredParts.map((part, idx) => {
       // Se è solo spazio, lo restituisco così com'è
-      if(part === " ") return part;
       // Altrimenti applico colore alternato
       return (
         <>
