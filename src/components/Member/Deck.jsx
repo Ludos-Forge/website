@@ -1,5 +1,5 @@
 // EmployeeDeck.tsx
-import React, { useRef } from "react";
+import React from "react";
 import Member from "./Member";
 // import "react-stack-cards/dist/index.css";
 
