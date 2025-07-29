@@ -173,7 +173,7 @@ export default function LandingPage() {
               zIndex: 0,
             }}
           >
-            <div class="h-full" style={{ margin: "10% 20%" }}>
+            <div className="h-full" style={{ margin: "10% 20%" }}>
               {index === 1 && (
                 <>
                   <h2 style={{ color: "black", fontSize: "2.5rem" }}>Vision</h2>
@@ -193,19 +193,10 @@ export default function LandingPage() {
                   </ScrollReveal>
                 </>
               )}
-              {index === 2 && (
+              {index ===0 && (
                 <>
                   <h2 style={{ color: "black", fontSize: "2.5rem" }}>Team</h2>
                   <Deck members={members} />
-                  {/* {members.map((member, index) => (
-                    <Member
-                      key={index}
-                      index={index}
-                      member={member}
-                      reverse={index % 2 === 0}
-                      className="p-b-2"
-                    />
-                  ))} */}
                 </>
               )}
             </div>

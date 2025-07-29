@@ -13,7 +13,7 @@ function Member({ member }) {
         : Object.entries(member.links);
 
     return (
-        <div className="relative flex h-4/6 max-w-xl overflow-hidden rounded-xl shadow-lg">
+        <div className="relative flex h-[600px] w-[450px] overflow-hidden rounded-xl shadow-lg">
             <div
                 className="absolute inset-0 bg-cover bg-center grayscale-50"
                 style={{ backgroundImage: `url(${member.image})` }}

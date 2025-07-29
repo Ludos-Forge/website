@@ -163,7 +163,7 @@ const TextType = ({
       // Altrimenti applico colore alternato
       return (
         <>
-          <span key={idx} style={{ color: getAlternatingColor(idx) }}>{(idx !== filteredParts.length - 1) ? part + "   " : part}</span>
+          <span key={`${idx}`} style={{ color: getAlternatingColor(idx) }}>{(idx !== filteredParts.length - 1) ? part + "   " : part}</span>
           {renderCursor(idx, regex.test(textArray[0]))}
         </>
       );
