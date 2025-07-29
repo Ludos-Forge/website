@@ -173,10 +173,10 @@ export default function LandingPage() {
               zIndex: 0,
             }}
           >
-            <div className="h-full" style={{ margin: "10% 20%" }}>
+            <div className="h-full my-24 mx-48">
               {index === 1 && (
                 <>
-                  <h2 style={{ color: "black", fontSize: "2.5rem" }}>Vision</h2>
+                  <h2 className="mb-2.5 text-5xl text-black mb-8">Vision</h2>
                   <ScrollReveal
                     enableBlur={true}
                     baseRotation={0}
@@ -193,9 +193,9 @@ export default function LandingPage() {
                   </ScrollReveal>
                 </>
               )}
-              {index ===0 && (
+              {index === 2 && (
                 <>
-                  <h2 style={{ color: "black", fontSize: "2.5rem" }}>Team</h2>
+                  <h2 className="text-black text-5xl mb-8">Team</h2>
                   <Deck members={members} />
                 </>
               )}
@@ -213,10 +213,10 @@ export default function LandingPage() {
               zIndex: 0,
             }}
           >
-            <div style={{ margin: "10% 20%", textAlign: "end" }}>
+            <div className="h-full my-24 mx-48 text-right">
               {index === 1 && (
                 <>
-                  <h2 style={{ color: "white", fontSize: "2.5rem" }}>
+                  <h2 className="text-white text-5xl mb-8">
                     Mission
                   </h2>
                   <ScrollReveal
@@ -239,7 +239,7 @@ export default function LandingPage() {
                 </>
               )}
               {index === 2 && (
-                <h2 style={{ color: "white", fontSize: "2.5rem" }}>Projects</h2>
+                <h2 className="text-white text-5xl mb-8">Projects</h2>
               )}
             </div>
           </div>

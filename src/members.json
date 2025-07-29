@@ -13,9 +13,9 @@
     "role": "Game Artist",
     "image": "./assets/placeholder.jpg",
     "links": {
-      "artstation": "artstation.com/andreacarbone",
-      "linkedin": "https://www.linkedin.com/in/andrea-carbone-1a3047317?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
-      "instagram": "https://www.instagram.com/andreacarbone88?igsh=ZXBydW1hMWk2cHdp"
+      "artstation": "https://artstation.com/andreacarbone",
+      "linkedin": "https://www.linkedin.com/in/andrea-carbone-1a3047317",
+      "instagram": "https://www.instagram.com/andreacarbone88"
     }
   },
   {
@@ -51,7 +51,7 @@
     "role": "Game Designer",
     "image": "./assets/placeholder.jpg",
     "links": {
-      "linkedin": "https://www.linkedin.com/in/eva-luna-calzavara-embla-of-midgard?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"
+      "linkedin": "https://www.linkedin.com/in/eva-luna-calzavara-embla-of-midgard"
     }
   }
 ]
