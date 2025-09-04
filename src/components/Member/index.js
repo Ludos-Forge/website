@@ -1,2 +1,3 @@
 import Member from "./Member";
-export default Member;
+import Deck from "./Deck";
+export { Member, Deck };

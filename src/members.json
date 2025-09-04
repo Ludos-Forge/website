@@ -11,7 +11,7 @@
   {
     "name": "Andrea Carbone",
     "role": "Game Artist",
-    "image": "./assets/placeholder.jpg",
+    "image": "./assets/andrea.jpg",
     "links": {
       "artstation": "https://artstation.com/andreacarbone",
       "linkedin": "https://www.linkedin.com/in/andrea-carbone-1a3047317",
@@ -52,6 +52,14 @@
     "image": "./assets/placeholder.jpg",
     "links": {
       "linkedin": "https://www.linkedin.com/in/eva-luna-calzavara-embla-of-midgard"
+    }
+  },
+  {
+    "name": "Lorenzo Altamore",
+    "role": "Sound Designer",
+    "image": "./assets/placeholder.jpg",
+    "links": {
+      "instagram": "https://www.instagram.com/frequency_jammer"
     }
   }
 ]

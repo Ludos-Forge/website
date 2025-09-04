@@ -6,7 +6,8 @@ import ScrollReveal from "./components/ScrollReveal/ScrollReveal";
 import logo from "./assets/logo.png";
 import members from "./members.json";
 import TextType from "./components/TextType";
-import Deck from "./components/Member/Deck";
+import { Deck } from "./components/Member";
+import { ProjectTimeline } from "./components/ProjectTimeline";
 
 const sections = [
   { id: "home", label: "Home" },
@@ -216,9 +217,7 @@ export default function LandingPage() {
             <div className="h-full my-24 mx-48 text-right">
               {index === 1 && (
                 <>
-                  <h2 className="text-white text-5xl mb-8">
-                    Mission
-                  </h2>
+                  <h2 className="text-white text-5xl mb-8">Mission</h2>
                   <ScrollReveal
                     enableBlur={true}
                     baseRotation={0}
@@ -239,7 +238,12 @@ export default function LandingPage() {
                 </>
               )}
               {index === 2 && (
-                <h2 className="text-white text-5xl mb-8">Projects</h2>
+                <>
+                  <h2 className="text-white text-5xl mb-8">Projects</h2>
+                  <div className="h-full overflow-auto">
+                    <ProjectTimeline />
+                  </div>
+                </>
               )}
             </div>
           </div>
