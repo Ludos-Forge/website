@@ -36,35 +36,12 @@ export default function Deck({ members }) {
   };
 
   return (
-    <div
-      className="relative w-full max-w-5xl mx-auto"
-      onMouseEnter={stopAutoPlay}
-      onMouseLeave={startAutoPlay}
-    >
-      <AnimatePresence onExitComplete={handleExitComplete}>
-        {deck.map((emp, i) => {
-          const isFirst = i === 0;
-          return (
-            <motion.div
-              key={emp.name}
-              initial={isFirst ? { x: 200, opacity: 0 } : false}
-              animate={{
-                left: `${i * 32}px`,
-                top: `${-i * 10}px`,
-                zIndex: deck.length - i,
-                position: "absolute",
-                opacity: 1,
-                x: 0,
-              }}
-              exit={isFirst ? { x: -200, opacity: 0 } : {}}
-              transition={{ duration: 0.6, ease: "easeInOut" }}
-              style={{ height: "600px" }}
-            >
-              <Member member={emp} />
-            </motion.div>
-          );
-        })}
-      </AnimatePresence>
+    <div className="w-full flex flex-col md:flex-row gap-4 justify-center items-center">
+      {members.map((member, idx) => (
+        <div key={member.id || idx} className="w-full md:w-1/2 lg:w-1/3">
+          <Member {...member} />
+        </div>
+      ))}
     </div>
   );
 }

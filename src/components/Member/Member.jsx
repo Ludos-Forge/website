@@ -11,50 +11,56 @@ const iconMap = {
     instagram: FaInstagram,
     itch: FaItchIo,
 };
+
 function Member({ member }) {
-    const links = Array.isArray(member.links)
-        ? member.links.flatMap(obj => Object.entries(obj))
-        : Object.entries(member.links);
+    // Controllo di sicurezza: se member è undefined o null, restituisci null
+    if (!member) {
+        console.warn("Member component received undefined or null member prop");
+        return null;
+    }
+
+    const { name, role, bio, avatar, social, links } = member;
+
+    // Gestisci i link in modo sicuro
+    let memberLinks = [];
+    
+    if (social && Array.isArray(social)) {
+        memberLinks = social;
+    } else if (links) {
+        memberLinks = Array.isArray(links)
+            ? links.flatMap(obj => Object.entries(obj))
+            : Object.entries(links);
+    }
 
     return (
-        <div className="relative flex h-[600px] w-[450px] overflow-hidden rounded-xl shadow-lg">
-            <div
-                className="absolute inset-0 bg-cover bg-center grayscale-50"
-                style={{ backgroundImage: `url(${member.image})` }}
+        <div className="w-full max-w-xs md:max-w-sm lg:max-w-md h-auto bg-white rounded-xl shadow-lg p-4 flex flex-col items-center mx-auto">
+            <img
+                src={avatar || "/placeholder-avatar.png"}
+                alt={`Avatar di ${name || "Membro"}`}
+                className="w-20 h-20 md:w-32 md:h-32 rounded-full object-cover mb-4"
+                loading="lazy"
             />
-
-            <div className="relative z-20 flex flex-1 flex-col justify-between p-4 text-white h-[calc(100%-8px)]">
-                <div>
-                    <h2 className="text-2xl font-bold text-gray-800">{member.role}</h2>
+            <h3 className="text-lg md:text-2xl font-bold mb-1 text-center">{name || "Nome non disponibile"}</h3>
+            <p className="text-sm md:text-base text-gray-600 mb-2 text-center">{role || "Ruolo non specificato"}</p>
+            <p className="text-xs md:text-sm text-gray-500 text-center">{bio || ""}</p>
+            {memberLinks.length > 0 && (
+                <div className="flex gap-2 mt-2">
+                    {memberLinks.map((link, idx) => (
+                        <a
+                            key={link.url || idx}
+                            href={link.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label={link.label}
+                            className="text-blue-600 hover:underline text-xs md:text-base"
+                        >
+                            {link.label}
+                        </a>
+                    ))}
                 </div>
-                <div className="flex gap-4">
-                    {links.map(([platform, url], idx) => {
-                        const Icon = iconMap[platform.toLowerCase()] || FaGlobe;
-                        return (
-                            <a
-                                key={idx}
-                                href={url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="w-5 h-5 text-white hover:text-blue-400"
-                            >
-                                <Icon className="w-full h-full" />
-                            </a>
-                        );
-                    })}
-                </div>
-            </div>
-            <div className="absolute flex flex-row-reverse right-0 w-8 h-full bg-white z-10">
-                <span className=" text-2xl from-black to-white origin-center whitespace-nowrap uppercase ps-2" style={{
-                    writingMode: "tb",
-                }}>
-                    {member.name}
-                </span>
-            </div>
-
-        </div >
+            )}
+        </div>
     );
 }
 
 export default Member;
-

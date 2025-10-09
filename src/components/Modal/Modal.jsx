@@ -8,41 +8,17 @@ const Modal = ({ isOpen, onClose, children }) => {
 
     return ReactDOM.createPortal(
         <div
-            style={{
-                position: "fixed",
-                top: 0, left: 0, right: 0, bottom: 0,
-                backgroundColor: "rgba(0,0,0,0.5)",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                zIndex: 1000,
-            }}
-            onClick={onClose} // chiude cliccando sullo sfondo
+            className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
+            role="dialog"
+            aria-modal="true"
         >
-            <div
-                style={{
-                    background: "#fff",
-                    padding: "20px",
-                    borderRadius: "8px",
-                    minWidth: "300px",
-                    maxWidth: "50vw",
-                    position: "relative",
-                }}
-                onClick={(e) => e.stopPropagation()} // evita chiusura se clicco dentro
-            >
+            <div className="bg-white rounded-lg shadow-lg p-4 w-full max-w-xs md:max-w-md">
                 <button
                     onClick={onClose}
-                    style={{
-                        position: "absolute",
-                        top: "10px",
-                        right: "10px",
-                        border: "none",
-                        background: "transparent",
-                        fontSize: "18px",
-                        cursor: "pointer",
-                    }}
+                    className="absolute top-2 right-2 text-gray-500 hover:text-black"
+                    aria-label="Chiudi"
                 >
-                    <FaTimes />
+                    &times;
                 </button>
                 {children}
             </div>

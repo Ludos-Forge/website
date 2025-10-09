@@ -95,19 +95,13 @@ const ScrollReveal = ({
         </div>)
     } else {
         return (
-
-            <h2 ref={containerRef} className={`scroll-reveal ${containerClassName}`} style={{ minHeight: 80, display: 'block' }}>
-                <p
-                    ref={textRef}
-                    className={`scroll-reveal-text ${textClassName}`}
-                    style={{
-                        color: textClassName === 'white-text' ? 'white' : undefined,
-                        fontSize: fontSize || undefined
-                    }}
-                >
-                    {splitText}
-                </p>
-            </h2>
+            <div
+                className={`transition-all duration-700 ${active ? "opacity-100" : "opacity-0"} ${textClassName || ""} text-base md:text-lg`}
+                style={{ fontSize: fontSize || "1rem" }}
+                aria-live="polite"
+            >
+                {children}
+            </div>
         );
     }
 };

@@ -195,8 +195,7 @@ const TextType = ({
       ...props,
     },
     <span className="text-type__content">
-      {renderColoredText()}
-
+      <span className="font-bold text-2xl md:text-7xl text-black">{displayedText}</span>
     </span>,
 
   );
