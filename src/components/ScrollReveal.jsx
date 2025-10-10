@@ -79,7 +79,6 @@ const ScrollReveal = ({
         };
     }, [children, enableBlur, baseOpacity, blurStrength, active]);
 
-    // Forza uno stile minimo per il contenitore
     return (
         <h2 ref={containerRef} className={`scroll-reveal ${containerClassName}`} style={{ minHeight: 80, display: 'block' }}>
             <WrapperTag

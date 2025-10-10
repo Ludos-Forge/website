@@ -78,7 +78,6 @@ const ScrollReveal = ({
     }, [children, enableBlur, baseOpacity, blurStrength, active]);
 
     // Forza uno stile minimo per il contenitore
-    const textClass = `text-${fontSize ? '' : ''}`; // placeholder if needed
     if (children && (typeof children === 'object' || Array.isArray(children))) {
         return (
             <div ref={containerRef} className={`${containerClassName} block min-h-[80px]`}>
