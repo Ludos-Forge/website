@@ -1,5 +1,4 @@
 import React from "react";
-import "./Member.css";
 import { FaArtstation, FaGithub, FaGlobe, FaInstagram, FaItchIo, FaLinkedin, FaTwitter } from "react-icons/fa6";
 
 const iconMap = {
@@ -19,13 +18,12 @@ function Member({ member }) {
     return (
         <div className="relative flex h-[600px] w-[450px] overflow-hidden rounded-xl shadow-lg">
             <div
-                className="absolute inset-0 bg-cover bg-center grayscale-50"
+                className="absolute inset-0 bg-cover bg-center grayscale-70"
                 style={{ backgroundImage: `url(${member.image})` }}
             />
-
             <div className="relative z-20 flex flex-1 flex-col justify-between p-4 text-white h-[calc(100%-8px)]">
                 <div>
-                    <h2 className="text-2xl font-bold text-gray-800">{member.role}</h2>
+                    <h2 className="text-2xl font-bold text-white">{member.role}</h2>
                 </div>
                 <div className="flex gap-4">
                     {links.map(([platform, url], idx) => {
@@ -35,8 +33,8 @@ function Member({ member }) {
                                 key={idx}
                                 href={url}
                                 target="_blank"
-                                rel="noopener noreferrer"
-                                className="w-5 h-5 text-white hover:text-blue-400"
+                                rel="noreferrer"
+                                className="inline-flex items-center justify-center w-5 h-5 text-white hover:text-blue-400"
                             >
                                 <Icon className="w-full h-full" />
                             </a>
@@ -44,15 +42,14 @@ function Member({ member }) {
                     })}
                 </div>
             </div>
-            <div className="absolute flex flex-row-reverse right-0 w-8 h-full bg-white z-10">
-                <span className=" text-2xl from-black to-white origin-center whitespace-nowrap uppercase ps-2" style={{
-                    writingMode: "tb",
-                }}>
+
+            <div className="absolute right-0 top-0 h-full w-8 bg-white z-10 flex pt-2">
+                <span className="[writing-mode:vertical-rl] text-2xl text-black uppercase whitespace-nowrap">
                     {member.name}
                 </span>
             </div>
 
-        </div >
+        </div>
     );
 }
 

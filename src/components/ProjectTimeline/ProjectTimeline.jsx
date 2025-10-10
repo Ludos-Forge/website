@@ -62,8 +62,8 @@ const ProjectTimeline = () => {
           >
             <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', height: '100%', background: 'rgba(255, 255, 255, 0.2)' }}>
               <div style={{ padding: '16px', display: 'flex', height: '100%', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'end' }}>
-                <FaArrowUpRightFromSquare onClick={() => setSelectedProject(item)} style={{ cursor: 'pointer',width: "25px", height:"auto" }} />
-                <a href={item.link.steam} target="_blank"><FaSteam style={{width: "30px", height:"auto"}} /></a>
+                <FaArrowUpRightFromSquare onClick={() => setSelectedProject(item)} style={{ cursor: 'pointer', width: "25px", height: "auto" }} />
+                <a href={item.link.steam} target="_blank" rel="noreferrer"><FaSteam style={{ width: "30px", height: "auto" }} /></a>
               </div>
             </div>
           </div>

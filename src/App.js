@@ -63,67 +63,33 @@ export default function LandingPage() {
   return (
     <div
       ref={containerRef}
-      style={{ height: "100vh", overflow: "hidden", scrollBehavior: "smooth" }}
+      className="h-screen overflow-hidden [scroll-behavior:smooth]"
     >
       <nav
-        style={{
-          position: "fixed",
-          top: 24,
-          right: 32,
-          zIndex: 100,
-          background: "rgba(255,255,255,0.85)",
-          borderRadius: 8,
-          boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
-          padding: "0.5rem 1.2rem",
-          display: "flex",
-          gap: 16,
-          alignItems: "center",
-        }}
+        className="fixed top-6 right-8 z-[100] bg-[rgba(255,255,255,0.85)] rounded-[8px] shadow-[0_2px_8px_rgba(0,0,0,0.08)] py-[0.5rem] px-[1.2rem] flex gap-4 items-center"
       >
         {sections.map((section, idx) => (
           <button
             key={section.id}
             onClick={() => setCurrentSection(idx)}
-            style={{
-              background: idx === currentSection ? "#222" : "transparent",
-              color: idx === currentSection ? "#fff" : "#222",
-              border: "none",
-              borderRadius: 4,
-              padding: "0.4rem 0.9rem",
-              fontWeight: 600,
-              cursor: "pointer",
-              fontSize: "1rem",
-              transition: "background 0.2s, color 0.2s",
-            }}
+            className={`rounded-[4px] py-[0.4rem] px-[0.9rem] font-semibold text-base transition-colors duration-200 ${
+              idx === currentSection
+                ? "bg-[#222] text-white"
+                : "bg-transparent text-[#222]"
+            }`}
           >
             {section.label}
           </button>
         ))}
       </nav>
 
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          zIndex: 1,
-          transform: "translate(-50%, -50%)",
-        }}
-      >
+      <div className="absolute top-1/2 left-1/2 z-[1] -translate-x-1/2 -translate-y-1/2 flex justify-center items-center">
         <motion.div
           animate={{ rotate: currentSection * 360 }}
           transition={{ duration: 1 }}
-          style={{ textAlign: "center", zIndex: 1 }}
+          className="text-center z-[1]"
         >
-          <img
-            src={logo}
-            alt="LudosForge Logo"
-            style={{ width: 400, height: 400 }}
-          />
+          <img src={logo} alt="LudosForge Logo" className="w-[300px] h-[300px]" />
         </motion.div>
       </div>
 
@@ -131,28 +97,10 @@ export default function LandingPage() {
         <div
           key={section.id}
           id={section.id}
-          style={{
-            height: "100vh",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            position: "relative",
-            overflow: "hidden",
-          }}
+          className="h-screen flex justify-center items-center relative overflow-hidden"
         >
           {index === 0 && (
-            <div
-              style={{
-                position: "absolute",
-                top: "20%",
-                left: "50%",
-                display: "flex",
-                textAlign: "start",
-                transform: "translate(-50%, -50%)",
-                width: "425px",
-                zIndex: 1,
-              }}
-            >
+            <div className="absolute top-[20%] left-1/2 -translate-x-1/2 -translate-y-1/2 flex text-left w-[425px] z-[1]">
               <TextType
                 text={"Ludos Forge"}
                 as="h1"
@@ -163,21 +111,11 @@ export default function LandingPage() {
             </div>
           )}
 
-          <div
-            style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              width: "50%",
-              height: "100%",
-              backgroundColor: "white",
-              zIndex: 0,
-            }}
-          >
+          <div className="absolute top-0 left-0 w-1/2 h-full bg-white z-0">
             <div className="h-full my-24 mx-48">
               {index === 1 && (
                 <>
-                  <h2 className="mb-2.5 text-5xl text-black mb-8">Vision</h2>
+                  <h2 className="text-5xl text-black mb-8">Vision</h2>
                   <ScrollReveal
                     enableBlur={true}
                     baseRotation={0}
@@ -203,17 +141,7 @@ export default function LandingPage() {
             </div>
           </div>
 
-          <div
-            style={{
-              position: "absolute",
-              top: 0,
-              right: 0,
-              width: "50%",
-              height: "100%",
-              backgroundColor: "black",
-              zIndex: 0,
-            }}
-          >
+          <div className="absolute top-0 right-0 w-1/2 h-full bg-black z-0">
             <div className="h-full my-24 mx-48 text-right">
               {index === 1 && (
                 <>

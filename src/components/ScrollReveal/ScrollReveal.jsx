@@ -1,8 +1,6 @@
 import { useEffect, useRef, useMemo, useCallback } from 'react';
 import { gsap } from 'gsap';
 
-import './ScrollReveal.css';
-
 const ScrollReveal = ({
     children,
     enableBlur = true,
@@ -80,26 +78,28 @@ const ScrollReveal = ({
     }, [children, enableBlur, baseOpacity, blurStrength, active]);
 
     // Forza uno stile minimo per il contenitore
+    const textClass = `text-${fontSize ? '' : ''}`; // placeholder if needed
     if (children && (typeof children === 'object' || Array.isArray(children))) {
-        return (<div ref={containerRef} className={`scroll-reveal ${containerClassName}`} style={{ minHeight: 80, display: 'block' }}>
-            <div
-                ref={textRef}
-                className={`scroll-reveal-text ${textClassName}`}
-                style={{
-                    color: textClassName === 'white-text' ? 'white' : undefined,
-                    fontSize: fontSize || undefined
-                }}
-            >
-                {splitText}
+        return (
+            <div ref={containerRef} className={`${containerClassName} block min-h-[80px]`}>
+                <div
+                    ref={textRef}
+                    className={`${textClassName} text-[clamp(1.6rem,4vw,3rem)] leading-[1.5] font-semibold`}
+                    style={{
+                        color: textClassName === 'white-text' ? 'white' : undefined,
+                        fontSize: fontSize || undefined
+                    }}
+                >
+                    {splitText}
+                </div>
             </div>
-        </div>)
+        )
     } else {
         return (
-
-            <h2 ref={containerRef} className={`scroll-reveal ${containerClassName}`} style={{ minHeight: 80, display: 'block' }}>
+            <h2 ref={containerRef} className={`${containerClassName} block min-h-[80px]`}>
                 <p
                     ref={textRef}
-                    className={`scroll-reveal-text ${textClassName}`}
+                    className={`${textClassName} text-[clamp(1.6rem,4vw,3rem)] leading-[1.5] font-semibold`}
                     style={{
                         color: textClassName === 'white-text' ? 'white' : undefined,
                         fontSize: fontSize || undefined

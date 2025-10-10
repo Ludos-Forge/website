@@ -19,7 +19,7 @@
   },
   "scripts": {
     "start": "tailwindcss -i ./src/input.css -o ./public/style.css && react-scripts start",
-    "dev": "concurrently --kill-others \"npm run tailwind:build\" \"npm run start\"",
+    "dev": "concurrently --kill-others \"npm run tailwind:build\" \"react-scripts start\"",
     "tailwind:build": "tailwindcss -i ./src/input.css -o ./public/style.css --watch",
     "build": "react-scripts build",
     "test": "react-scripts test",

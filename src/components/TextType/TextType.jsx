@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState, createElement } from "react";
 import { gsap } from "gsap";
-import "./TextType.css";
 
 const TextType = ({
   text,
@@ -191,14 +190,13 @@ const TextType = ({
     Component,
     {
       ref: containerRef,
-      className: `text-type font-['Times_New_Roman'] text-7xl ${className}`,
+      // inline-block + preserve wrapping behavior
+      className: `inline-block whitespace-pre-wrap font-['Times_New_Roman'] text-7xl ${className}`,
       ...props,
     },
-    <span className="text-type__content">
+    <span>
       {renderColoredText()}
-
-    </span>,
-
+    </span>
   );
 };
 

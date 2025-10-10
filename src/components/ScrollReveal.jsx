@@ -1,7 +1,5 @@
-import { useEffect, useRef, useMemo } from 'react';
+import { useEffect, useRef, useMemo, useCallback } from 'react';
 import { gsap } from 'gsap';
-
-import './ScrollReveal.css';
 
 const ScrollReveal = ({
     children,
@@ -37,7 +35,7 @@ const ScrollReveal = ({
             return text.split(/(\s+)/).map((word, index) => {
                 if (word.match(/^\s+$/)) return word;
                 return (
-                    <span className="word" key={index}>
+                    <span className="word inline-block" key={index}>
                         {word}
                     </span>
                 );
@@ -62,7 +60,6 @@ const ScrollReveal = ({
             return;
         }
         const wordElements = textEl.querySelectorAll('.word');
-        console.log('ScrollReveal wordElements:', wordElements);
 
         gsap.fromTo(
             wordElements,
