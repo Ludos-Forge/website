@@ -26,7 +26,7 @@ function Member({ member }) {
     : Object.entries(member.links);
 
   return (
-    <div className="relative flex h-[70vh] sm:h-[600px] w-[85vw] sm:w-[450px] max-w-sm overflow-hidden rounded-xl shadow-lg">
+    <div className="relative flex h-[70vh] sm:h-[500px] w-[85vw] sm:w-[450px] max-w-sm overflow-hidden rounded-xl shadow-lg">
       <div
         className="absolute inset-0 bg-cover bg-center grayscale-[70%]"
         style={{ backgroundImage: `url(${member.image})` }}

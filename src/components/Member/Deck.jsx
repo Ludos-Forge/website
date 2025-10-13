@@ -43,7 +43,7 @@ export default function Deck({ members }) {
       ref={containerRef}
     >
       {/* Desktop: stack effect */}
-      <div className="hidden sm:block relative w-full max-w-5xl mx-auto h-[600px]">
+      <div className="hidden sm:block relative w-full max-w-5xl mx-auto h-[400px]">
         <AnimatePresence onExitComplete={handleExitComplete}>
           {deck.map((emp, i) => {
             const isFirst = i === 0;

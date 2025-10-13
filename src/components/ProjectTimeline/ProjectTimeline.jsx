@@ -47,16 +47,14 @@ const items = [
   },
 ];
 
-const ProjectTimeline = ({ setIsModalOpen }) => {
+const ProjectTimeline = () => {
   const [selectedProject, setSelectedProject] = useState(false);
   const openModal = (item) => {
     setSelectedProject(item);
-    setIsModalOpen(true);
   };
 
   const closeModal = () => {
     setSelectedProject(false);
-    setIsModalOpen(false);
   };
   return (
     <>
@@ -64,7 +62,7 @@ const ProjectTimeline = ({ setIsModalOpen }) => {
         {items.map((item) => (
           <div
             key={item.id}
-            className="relative flex-shrink-0 bg-cover bg-no-repeat bg-center grayscale-[50%] w-full h-[268px] rounded-xl shadow-md transition-transform hover:scale-[1.02]"
+            className="relative flex-shrink-0 bg-cover bg-no-repeat bg-center grayscale-[50%] w-full h-[220px] rounded-xl shadow-md transition-transform hover:scale-[1.02]"
             style={{ backgroundImage: `url(${item.background})` }}
           >
             <div className="absolute inset-0 bg-white/20 flex flex-col justify-end rounded-xl">
