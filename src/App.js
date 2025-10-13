@@ -9,7 +9,6 @@ import React, {
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import Navbar from "./components/Navbar/Navbar";
-
 import { Home, Projects, VisionMission, Team } from "./components/Sections";
 
 import logo from "./assets/logo.png";
@@ -41,10 +40,13 @@ export default function App() {
     [isMobile]
   );
 
+  // Scroll desktop
   const handleWheel = useCallback(
     (e) => {
+      if (isMobile) return;
       e.preventDefault();
       if (scrollLockRef.current) return;
+
       const direction = e.deltaY > 0 ? 1 : -1;
       const next = currentSection + direction;
       const max = activeSections.length;
@@ -55,7 +57,7 @@ export default function App() {
         setTimeout(() => (scrollLockRef.current = false), 900);
       }
     },
-    [activeSections, currentSection]
+    [activeSections, currentSection, isMobile]
   );
 
   useEffect(() => {
@@ -63,6 +65,7 @@ export default function App() {
     return () => window.removeEventListener("wheel", handleWheel);
   }, [handleWheel]);
 
+  // Detect mobile
   useEffect(() => {
     const mq = window.matchMedia("(max-width: 768px)");
     const onChange = (e) => setIsMobile(e.matches);
@@ -71,13 +74,64 @@ export default function App() {
     return () => mq.removeEventListener("change", onChange);
   }, []);
 
+  // Scroll desktop
   useEffect(() => {
     containerRef.current.scrollTo({
       top: window.innerHeight * currentSection,
       behavior: "smooth",
     });
     if (currentSection === 1) setTimeout(() => ScrollTrigger?.refresh(), 400);
-  }, [currentSection]);
+  }, [currentSection, isMobile]);
+
+  // Swipe mobile
+  useEffect(() => {
+    if (!isMobile || !containerRef.current) return;
+
+    let startY = 0;
+    let endY = 0;
+    const threshold = 60;
+
+    const handleTouchStart = (e) => {
+      startY = e.touches[0].clientY;
+    };
+
+    const handleTouchMove = (e) => {
+      endY = e.touches[0].clientY;
+    };
+
+    const handleTouchEnd = (e) => {
+      // Ignora swipe se viene da un carousel
+      if (
+        e.target.closest(".carousel") ||
+        e.target.closest(".swiper-container")
+      )
+        return;
+
+      const deltaY = startY - endY;
+      if (Math.abs(deltaY) < threshold || scrollLockRef.current) return;
+
+      const direction = deltaY > 0 ? 1 : -1;
+      const next = currentSection + direction;
+      const max = activeSections.length;
+
+      if (next >= 0 && next < max) {
+        setCurrentSection(next);
+        scrollLockRef.current = true;
+        setTimeout(() => (scrollLockRef.current = false), 900);
+      }
+    };
+
+    const el = containerRef.current;
+    el.addEventListener("touchstart", handleTouchStart, { passive: false });
+    el.addEventListener("touchmove", handleTouchMove, { passive: false });
+    el.addEventListener("touchend", handleTouchEnd, { passive: false });
+
+    return () => {
+      el.removeEventListener("touchstart", handleTouchStart);
+      el.removeEventListener("touchmove", handleTouchMove);
+      el.removeEventListener("touchend", handleTouchEnd);
+    };
+  }, [isMobile, currentSection, activeSections]);
 
   return (
     <div
@@ -134,13 +188,14 @@ export default function App() {
               />
             )}
             {section.id === "team" && (
-              <Team isMobile={isMobile} isBlack={isBlack} members={members} />
-            )}
-            {section.id === "projects" && (
-              <Projects
+              <Team
                 isMobile={isMobile}
                 isBlack={isBlack}
+                members={members}
               />
+            )}
+            {section.id === "projects" && (
+              <Projects isMobile={isMobile} isBlack={isBlack} />
             )}
 
             {section.id === "team-projects" && (
@@ -153,10 +208,7 @@ export default function App() {
                   />
                 </div>
                 <div className="absolute top-0 right-0 w-1/2 h-full bg-black z-0">
-                  <Projects
-                    isMobile={isMobile}
-                    isBlack={!isBlack}
-                  />
+                  <Projects isMobile={isMobile} isBlack={!isBlack} />
                 </div>
               </>
             )}
