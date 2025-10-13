@@ -1,54 +1,45 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
 import { FaTimes } from "react-icons/fa";
 
-// --- Modal Component ---
 const Modal = ({ isOpen, onClose, children }) => {
-    if (!isOpen) return null;
+  // 🔒 Blocca lo scroll del body quando la modale è aperta
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
 
-    return ReactDOM.createPortal(
-        <div
-            style={{
-                position: "fixed",
-                top: 0, left: 0, right: 0, bottom: 0,
-                backgroundColor: "rgba(0,0,0,0.5)",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                zIndex: 1000,
-            }}
-            onClick={onClose} // chiude cliccando sullo sfondo
+  if (!isOpen) return null;
+
+  return ReactDOM.createPortal(
+    <div
+      className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/50"
+      onClick={onClose} // chiude cliccando sullo sfondo
+    >
+      <div
+        className="relative bg-white rounded-lg p-6 min-w-[300px] max-w-[90vw] sm:max-w-[50vw] max-h-[80vh] overflow-y-auto shadow-lg"
+        onClick={(e) => e.stopPropagation()} // evita chiusura se clicco dentro
+      >
+        {/* Bottone chiusura */}
+        <button
+          onClick={onClose}
+          className="absolute top-3 right-3 text-gray-500 hover:text-gray-800 transition-colors"
         >
-            <div
-                style={{
-                    background: "#fff",
-                    padding: "20px",
-                    borderRadius: "8px",
-                    minWidth: "300px",
-                    maxWidth: "50vw",
-                    position: "relative",
-                }}
-                onClick={(e) => e.stopPropagation()} // evita chiusura se clicco dentro
-            >
-                <button
-                    onClick={onClose}
-                    style={{
-                        position: "absolute",
-                        top: "10px",
-                        right: "10px",
-                        border: "none",
-                        background: "transparent",
-                        fontSize: "18px",
-                        cursor: "pointer",
-                    }}
-                >
-                    <FaTimes />
-                </button>
-                {children}
-            </div>
-        </div>,
-        document.body
-    );
-}
+          <FaTimes className="w-5 h-5" />
+        </button>
+
+        {/* Contenuto scrollabile */}
+        <div className="pr-2">{children}</div>
+      </div>
+    </div>,
+    document.body
+  );
+};
 
 export default Modal;

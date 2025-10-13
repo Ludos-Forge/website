@@ -22,6 +22,7 @@ const TextType = ({
   onSentenceComplete,
   startOnVisible = true,
   reverseMode = false,
+  monoColor = false,
   ...props
 }) => {
   const [displayedText, setDisplayedText] = useState("");
@@ -149,7 +150,11 @@ const TextType = ({
   //   (currentCharIndex < textArray[currentTextIndex].length || isDeleting);
 
   // Funzione per alternare i colori tra bianco e nero
-  const getAlternatingColor = (index = 0) => (index % 2 === 0 ? '#000' : '#fff');
+  // Se monoColor è true, ritorna sempre nero
+  const getAlternatingColor = (index = 0) => {
+    if (monoColor) return '#000';
+    return index % 2 === 0 ? '#000' : '#fff';
+  };
 
   // Rendering custom: ogni parola alterna colore
   const renderColoredText = () => {
