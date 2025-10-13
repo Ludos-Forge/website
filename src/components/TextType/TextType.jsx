@@ -179,7 +179,7 @@ const TextType = ({
       <span
         ref={cursorRef}
         style={{ color: getAlternatingColor(idx) }}
-        className={`text-type__cursor text-7xl ${cursorClassName} ${hide ? "text-type__cursor--hidden" : ""}`}
+        className={`text-type__cursor text-4xl sm:text-5xl md:text-6xl lg:text-7xl ${cursorClassName} ${hide ? "text-type__cursor--hidden" : ""}`}
       >
         {cursorCharacter}
       </span>
@@ -196,7 +196,7 @@ const TextType = ({
     {
       ref: containerRef,
       // inline-block + preserve wrapping behavior
-      className: `inline-block whitespace-pre-wrap font-['Times_New_Roman'] text-7xl ${className}`,
+      className: `inline-block whitespace-pre-wrap font-['Times_New_Roman'] text-4xl sm:text-5xl md:text-6xl lg:text-7xl ${className}`,
       ...props,
     },
     <span>
