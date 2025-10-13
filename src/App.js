@@ -8,7 +8,6 @@ import members from "./members.json";
 import TextType from "./components/TextType";
 import { Deck } from "./components/Member";
 import { ProjectTimeline } from "./components/ProjectTimeline";
-import { FaHamburger } from "react-icons/fa";
 import { FaBars } from "react-icons/fa6";
 
 const desktopSections = [
@@ -59,7 +58,7 @@ export default function App() {
     return () => {
       window.removeEventListener("wheel", handleWheel);
     };
-  }, [currentSection]);
+  }, [currentSection, handleWheel]);
 
   useEffect(() => {
     const mq = window.matchMedia("(max-width: 768px)");
