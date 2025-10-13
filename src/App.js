@@ -43,21 +43,24 @@ export default function App() {
     [isMobile]
   );
 
-  const handleWheel = useCallback((e) => {
-    e.preventDefault();
-    if (scrollLockRef.current) return;
-    const direction = e.deltaY > 0 ? 1 : -1;
-    const next = currentSection + direction;
-    const max = activeSections.length;
+  const handleWheel = useCallback(
+    (e) => {
+      e.preventDefault();
+      if (scrollLockRef.current) return;
+      const direction = e.deltaY > 0 ? 1 : -1;
+      const next = currentSection + direction;
+      const max = activeSections.length;
 
-    if (next >= 0 && next < max) {
-      setCurrentSection(next);
-      scrollLockRef.current = true;
-      setTimeout(() => {
-        scrollLockRef.current = false;
-      }, 900); // tempo di blocco dopo ogni scroll
-    }
-  }, [activeSections, currentSection]);
+      if (next >= 0 && next < max) {
+        setCurrentSection(next);
+        scrollLockRef.current = true;
+        setTimeout(() => {
+          scrollLockRef.current = false;
+        }, 900); // tempo di blocco dopo ogni scroll
+      }
+    },
+    [activeSections, currentSection]
+  );
 
   useEffect(() => {
     window.addEventListener("wheel", handleWheel, { passive: false });
@@ -65,6 +68,42 @@ export default function App() {
       window.removeEventListener("wheel", handleWheel);
     };
   }, [currentSection, handleWheel]);
+  useEffect(() => {
+    let touchStartY = 0;
+    let touchEndY = 0;
+
+    const handleTouchStart = (e) => {
+      touchStartY = e.touches[0].clientY;
+    };
+
+    const handleTouchEnd = (e) => {
+      touchEndY = e.changedTouches[0].clientY;
+      const deltaY = touchStartY - touchEndY;
+
+      // Evita scroll troppo leggeri
+      if (Math.abs(deltaY) < 50 || scrollLockRef.current) return;
+
+      const direction = deltaY > 0 ? 1 : -1;
+      const next = currentSection + direction;
+      const max = activeSections.length;
+
+      if (next >= 0 && next < max) {
+        setCurrentSection(next);
+        scrollLockRef.current = true;
+        setTimeout(() => {
+          scrollLockRef.current = false;
+        }, 900); // lo stesso tempo del wheel
+      }
+    };
+
+    window.addEventListener("touchstart", handleTouchStart, { passive: true });
+    window.addEventListener("touchend", handleTouchEnd, { passive: true });
+
+    return () => {
+      window.removeEventListener("touchstart", handleTouchStart);
+      window.removeEventListener("touchend", handleTouchEnd);
+    };
+  }, [currentSection, activeSections]);
 
   useEffect(() => {
     const mq = window.matchMedia("(max-width: 768px)");
@@ -221,18 +260,17 @@ export default function App() {
                 </div>
               )}
 
-              <div className={`w-full max-w-3xl py-16 z-[1] `}>
+              <div className={`w-full max-w-3xl z-[1] `}>
                 {section.id === "vision" && (
                   // Two vertical sections splitting the screen 50/50
-                  <div className="flex flex-col w-full h-screen">
-                    <div className="w-full h-1/2 bg-white text-black pt-8 px-5 flex flex-col ">
+                  <div className="flex flex-col w-full h-screen justify-between">
+                    <div className="w-full bg-white text-black pt-8 px-5 flex flex-col ">
                       <h2 className="text-4xl mb-6">Vision</h2>
                       <ScrollReveal
                         enableBlur={true}
                         baseRotation={0}
                         blurStrength={10}
                         active={currentSection === index}
-                        fontSize={"1.125rem"}
                       >
                         We bring to life the worlds we've always dreamed of as
                         gamers. We envision a future where every indie developer
@@ -243,7 +281,7 @@ export default function App() {
                       </ScrollReveal>
                     </div>
 
-                    <div className="w-full h-1/2 bg-black text-white px-5 flex flex-col text-right ">
+                    <div className="w-full bg-black text-white px-5 py-10 flex flex-col text-right ">
                       <h2 className="text-4xl mb-6">Mission</h2>
                       <ScrollReveal
                         enableBlur={true}
@@ -251,7 +289,6 @@ export default function App() {
                         blurStrength={10}
                         textClassName="white-text"
                         active={currentSection === index}
-                        fontSize={"1.125rem"}
                       >
                         We forge video games with passion, creative freedom, and
                         collective spirit. Ludos Forge was born from the desire
@@ -268,7 +305,7 @@ export default function App() {
                 )}
 
                 {section.id === "team" && (
-                  <div className="px-5">
+                  <div className="px-5 py-10">
                     <h2
                       className={`text-4xl mb-6 ${
                         isBlack ? "text-white" : "text-black"
@@ -281,7 +318,7 @@ export default function App() {
                 )}
 
                 {section.id === "projects" && (
-                  <div className="px-5">
+                  <div className="px-5 py-10">
                     <h2
                       className={`text-4xl mb-6 ${
                         isBlack ? "text-white" : "text-black"

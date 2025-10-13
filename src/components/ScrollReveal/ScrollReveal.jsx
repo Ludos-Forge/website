@@ -95,10 +95,10 @@ const ScrollReveal = ({
         )
     } else {
         return (
-            <h2 ref={containerRef} className={`${containerClassName} block min-h-[80px]`}>
+            <div ref={containerRef} className={`${containerClassName} block min-h-[80px]`}>
                 <p
                     ref={textRef}
-                    className={`${textClassName} text-[clamp(1.6rem,4vw,3rem)] leading-[1.5] font-semibold`}
+                    className={`${textClassName} text-[clamp(.6rem,4vw,1.2rem)] leading-[1.5] font-semibold`}
                     style={{
                         color: textClassName === 'white-text' ? 'white' : undefined,
                         fontSize: fontSize || undefined
@@ -106,7 +106,7 @@ const ScrollReveal = ({
                 >
                     {splitText}
                 </p>
-            </h2>
+            </div>
         );
     }
 };
