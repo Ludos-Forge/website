@@ -56,7 +56,6 @@ const ScrollReveal = ({
             return;
         }
         const wordElements = textEl.querySelectorAll('.word');
-        console.log('ScrollReveal wordElements:', wordElements);
 
         // Animazione automatica, non vincolata allo scroll
         gsap.fromTo(

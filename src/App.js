@@ -76,8 +76,9 @@ export default function App() {
 
   // Scroll desktop
   useEffect(() => {
+    const vh = window.visualViewport?.height || window.innerHeight;
     containerRef.current.scrollTo({
-      top: window.innerHeight * currentSection,
+      top: vh * currentSection,
       behavior: "smooth",
     });
     if (currentSection === 1) setTimeout(() => ScrollTrigger?.refresh(), 400);
@@ -188,11 +189,7 @@ export default function App() {
               />
             )}
             {section.id === "team" && (
-              <Team
-                isMobile={isMobile}
-                isBlack={isBlack}
-                members={members}
-              />
+              <Team isMobile={isMobile} isBlack={isBlack} members={members} />
             )}
             {section.id === "projects" && (
               <Projects isMobile={isMobile} isBlack={isBlack} />
