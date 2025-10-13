@@ -57,7 +57,7 @@ export default function App() {
         scrollLockRef.current = false;
       }, 900); // tempo di blocco dopo ogni scroll
     }
-  });
+  }, [activeSections, currentSection]);
 
   useEffect(() => {
     window.addEventListener("wheel", handleWheel, { passive: false });
