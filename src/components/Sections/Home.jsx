@@ -13,12 +13,12 @@ export default function Home({ isMobile, currentSection, index }) {
 
     return (
 
-        <div className="relative w-full h-screen flex flex-col items-center justify-center">
+        <div className="relative w-full h-full flex flex-col items-center justify-center">
             {/* Titolo "Ludos Forge" */}
             {!isMobile && (<>
-                <div className="absolute top-0 left-0 w-1/2 h-screen bg-white z-0">
+                <div className="absolute top-0 left-0 w-1/2 h-full bg-white z-0">
                 </div>
-                <div className="absolute top-0 right-0 w-1/2 h-screen bg-black z-0">
+                <div className="absolute top-0 right-0 w-1/2 h-full bg-black z-0">
                 </div>
             </>
             )

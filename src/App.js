@@ -197,14 +197,14 @@ export default function App() {
 
             {section.id === "team-projects" && (
               <>
-                <div className="absolute top-0 left-0 w-1/2 h-screen bg-white z-0">
+                <div className="absolute top-0 left-0 w-1/2 h-full bg-white z-0">
                   <Team
                     isMobile={isMobile}
                     isBlack={isBlack}
                     members={members}
                   />
                 </div>
-                <div className="absolute top-0 right-0 w-1/2 h-screen bg-black z-0">
+                <div className="absolute top-0 right-0 w-1/2 h-full bg-black z-0">
                   <Projects isMobile={isMobile} isBlack={!isBlack} />
                 </div>
               </>
