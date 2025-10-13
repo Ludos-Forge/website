@@ -1,6 +1,12 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import React, { useEffect, useRef, useState, useMemo } from "react";
+import React, {
+  useEffect,
+  useRef,
+  useState,
+  useMemo,
+  useCallback,
+} from "react";
 import ScrollReveal from "./components/ScrollReveal/ScrollReveal";
 
 import logo from "./assets/logo.png";
@@ -37,7 +43,7 @@ export default function App() {
     [isMobile]
   );
 
-  const handleWheel = (e) => {
+  const handleWheel = useCallback((e) => {
     e.preventDefault();
     if (scrollLockRef.current) return;
     const direction = e.deltaY > 0 ? 1 : -1;
@@ -51,7 +57,7 @@ export default function App() {
         scrollLockRef.current = false;
       }, 900); // tempo di blocco dopo ogni scroll
     }
-  };
+  });
 
   useEffect(() => {
     window.addEventListener("wheel", handleWheel, { passive: false });
