@@ -2,6 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
+import { FaEnvelope, FaSteam } from "react-icons/fa6";
 
 export default function MobileNav({
     activeSections,
@@ -33,8 +34,8 @@ export default function MobileNav({
                     <motion.button
                         key={section.id}
                         className={`relative text-3xl font-semibold tracking-wide px-6 py-2 rounded-md transition-all duration-200 ${isActive
-                                ? "bg-white text-black"
-                                : "text-white hover:bg-white/20"
+                            ? "bg-white text-black"
+                            : "text-white hover:bg-white/20"
                             }`}
                         onClick={() => {
                             setCurrentSection(idx);
@@ -49,6 +50,35 @@ export default function MobileNav({
                     </motion.button>
                 );
             })}
+            <div className="flex pointer-events-auto">
+                <a
+                    href="https://store.steampowered.com/search/?developer=Ludos%20Forge"
+                    target="_blank"
+                    rel="noreferrer"
+                    key="steam"
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        e.nativeEvent.stopImmediatePropagation();
+                    }}
+                    className="relative inline text-3xl font-semibold tracking-wide px-6 py-2 rounded-md transition-all duration-200 
+               text-white hover:bg-white/20"
+                >
+                    <FaSteam />
+                </a>
+
+                <a
+                    href="mailto:info@ludosforge.it"
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        e.nativeEvent.stopImmediatePropagation();
+                    }}
+                    className="relative inline text-3xl font-semibold tracking-wide px-6 py-2 rounded-md transition-all duration-200 
+               text-white hover:bg-white/20"
+                >
+                    <FaEnvelope />
+                </a>
+            </div>
         </motion.div>
+
     );
 }

@@ -1,9 +1,21 @@
 import { motion } from "framer-motion";
-import React, { useEffect, useRef, useState, useMemo } from "react";
+import React, {
+  useEffect,
+  useRef,
+  useState,
+  useMemo,
+  useCallback,
+} from "react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import Navbar from "./components/Navbar/Navbar";
-import { Home, Projects, VisionMission, Team } from "./components/Sections";
+import {
+  Home,
+  Projects,
+  VisionMission,
+  Team,
+  SectionIndicators,
+} from "./components/Sections";
 
 import logo from "./assets/logo.png";
 import members from "./members.json";
@@ -25,16 +37,14 @@ export default function App() {
   const [isMobile, setIsMobile] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [currentSection, setCurrentSection] = useState(0);
+  const scrollLockRef = useRef(false);
 
-  const containerRef = useRef(null);
-
-  // Sezioni attive
   const activeSections = useMemo(
     () => (isMobile ? mobileSections : desktopSections),
     [isMobile]
   );
 
-  // Rileva mobile
+  // rileva mobile
   useEffect(() => {
     const mq = window.matchMedia("(max-width: 768px)");
     const onChange = (e) => setIsMobile(e.matches);
@@ -43,13 +53,84 @@ export default function App() {
     return () => mq.removeEventListener("change", onChange);
   }, []);
 
-  // Aggiorna la sezione attuale quando l’utente scrolla manualmente
+  // triggera lo scroll alla sezione corrente
+  useEffect(() => {
+    const el = document.getElementById(activeSections[currentSection]?.id);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+      if (currentSection === 1) setTimeout(() => ScrollTrigger?.refresh(), 400);
+    }
+  }, [currentSection, activeSections]);
+
+  // intercetta lo scroll
+  // intercetta lo scroll
+  useEffect(() => {
+    let lastScrollTime = 0;
+    const minDelta = 40; // soglia minima per considerare uno scroll "intenzionale"
+    const debounceTime = 800; // tempo minimo tra due scroll effettivi
+
+    const handleWheel = (e) => {
+      if (isMenuOpen) return;
+      e.preventDefault();
+
+      const now = performance.now();
+      if (now - lastScrollTime < debounceTime) return; // previene scroll doppi
+
+      // ignora scroll troppo piccoli (es. micro movimenti del trackpad)
+      if (Math.abs(e.deltaY) < minDelta) return;
+
+      const direction = e.deltaY > 0 ? 1 : -1;
+      const next = currentSection + direction;
+
+      if (next >= 0 && next < activeSections.length) {
+        setCurrentSection(next);
+        lastScrollTime = now; // registra il tempo dell'ultimo scroll valido
+      }
+    };
+
+    window.addEventListener("wheel", handleWheel, { passive: false });
+    return () => window.removeEventListener("wheel", handleWheel);
+  }, [currentSection, activeSections]);
+
+  // swipe su mobile
+  useEffect(() => {
+    if (!isMobile) return;
+
+    let startY = 0;
+    let endY = 0;
+    const threshold = 60;
+
+    const handleTouchStart = (e) => (startY = e.touches[0].clientY);
+    const handleTouchMove = (e) => (endY = e.touches[0].clientY);
+    const handleTouchEnd = () => {
+      if (isMenuOpen) return;
+      if (scrollLockRef.current) return;
+      const deltaY = startY - endY;
+      if (Math.abs(deltaY) < threshold) return;
+
+      const direction = deltaY > 0 ? 1 : -1;
+      const next = currentSection + direction;
+
+      if (next >= 0 && next < activeSections.length) {
+        setCurrentSection(next);
+        scrollLockRef.current = true;
+        setTimeout(() => (scrollLockRef.current = false), 900);
+      }
+    };
+
+    window.addEventListener("touchstart", handleTouchStart, { passive: false });
+    window.addEventListener("touchmove", handleTouchMove, { passive: false });
+    window.addEventListener("touchend", handleTouchEnd, { passive: false });
+
+    return () => {
+      window.removeEventListener("touchstart", handleTouchStart);
+      window.removeEventListener("touchmove", handleTouchMove);
+      window.removeEventListener("touchend", handleTouchEnd);
+    };
+  }, [currentSection, activeSections, isMobile]);
 
   return (
-    <div
-      ref={containerRef}
-      className="h-screen"
-    >
+    <div className="h-screen overflow-hidden relative">
       <Navbar
         isMobile={isMobile}
         desktopSections={desktopSections}
@@ -60,20 +141,39 @@ export default function App() {
         setIsMenuOpen={setIsMenuOpen}
       />
 
-      {/* LOGO centrale */}
-      <div
-        className={`absolute top-1/2 left-1/2 z-[1] -translate-x-1/2 -translate-y-1/2 flex justify-center items-center ${
-          (isMobile && currentSection === 0) || !isMobile ? "" : "hidden"
-        }`}
-      >
-        <motion.img
-          src={logo}
-          alt="LudosForge Logo"
-          animate={{ rotate: currentSection * 360 }}
-          transition={{ duration: 1 }}
-          className="min-w-[300px] max-w-[300px] min-h-[300px] max-h-[300px]"
+      {isMobile && (
+        <SectionIndicators
+          activeSections={activeSections}
+          currentSection={currentSection}
+          setCurrentSection={setCurrentSection}
         />
-      </div>
+      )}
+
+      {/* LOGO centrale */}
+      {!isMobile && (
+        <div className="fixed top-1/2 left-1/2 z-[5] -translate-x-1/2 -translate-y-1/2 flex justify-center items-center pointer-events-none">
+          <motion.img
+            src={logo}
+            alt="LudosForge Logo"
+            animate={{ rotate: currentSection * 360 }}
+            transition={{ duration: 1 }}
+            className="min-w-[300px] max-w-[300px] min-h-[300px] max-h-[300px]"
+          />
+        </div>
+      )}
+
+      {/* Su mobile lo mostri solo nella prima sezione */}
+      {isMobile && currentSection === 0 && (
+        <div className="absolute top-1/2 left-1/2 z-[5] -translate-x-1/2 -translate-y-1/2 flex justify-center items-center">
+          <motion.img
+            src={logo}
+            alt="LudosForge Logo"
+            animate={{ rotate: currentSection * 360 }}
+            transition={{ duration: 1 }}
+            className="min-w-[200px] max-w-[200px] min-h-[200px] max-h-[200px]"
+          />
+        </div>
+      )}
 
       {/* SEZIONI */}
       {activeSections.map((section, index) => {
@@ -82,7 +182,7 @@ export default function App() {
           <section
             key={section.id}
             id={section.id}
-            className={`h-screen snap-start relative overflow-hidden ${
+            className={`h-screen relative overflow-hidden ${
               isBlack ? "bg-black text-white" : "bg-white text-black"
             }`}
           >
