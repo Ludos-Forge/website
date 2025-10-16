@@ -67,7 +67,7 @@ export default function MobileNav({
                 </a>
 
                 <a
-                    href="mailto:info@ludosforge.it"
+                    href="mailto:contact@ludosforge.it"
                     onClick={(e) => {
                         e.stopPropagation();
                         e.nativeEvent.stopImmediatePropagation();

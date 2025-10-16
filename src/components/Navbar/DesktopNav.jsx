@@ -28,7 +28,7 @@ export default function DesktopNav({
                 rel="noreferrer"
                 key="steam"
                 className={`rounded-[4px] py-[0.4rem] px-[0.9rem] font-semibold text-xl "bg-transparent text-[#222]`}><FaSteam /></a>
-                <a href="mailto:info@ludosforge.it"
+                <a href="mailto:contact@ludosforge.it"
                 className={`rounded-[4px] py-[0.4rem] px-[0.9rem] font-semibold text-xl "bg-transparent text-[#222]`}><FaEnvelope /></a>
                 
         </div>
