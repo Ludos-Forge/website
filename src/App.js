@@ -1,10 +1,5 @@
 import { motion } from "framer-motion";
-import React, {
-  useEffect,
-  useRef,
-  useState,
-  useMemo,
-} from "react";
+import React, { useEffect, useRef, useState, useMemo } from "react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import Navbar from "./components/Navbar/Navbar";
@@ -37,13 +32,31 @@ export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [currentSection, setCurrentSection] = useState(0);
   const scrollLockRef = useRef(false);
+  const containerRef = useRef(null);
 
   const activeSections = useMemo(
     () => (isMobile ? mobileSections : desktopSections),
     [isMobile]
   );
 
-  // rileva mobile
+  // ✅ Fix viewport height per iOS (100vh dinamico)
+  useEffect(() => {
+    const setVh = () => {
+      document.documentElement.style.setProperty(
+        "--vh",
+        `${window.innerHeight * 0.01}px`
+      );
+    };
+    setVh();
+    window.addEventListener("resize", setVh);
+    window.addEventListener("orientationchange", setVh);
+    return () => {
+      window.removeEventListener("resize", setVh);
+      window.removeEventListener("orientationchange", setVh);
+    };
+  }, []);
+
+  // ✅ Detect mobile
   useEffect(() => {
     const mq = window.matchMedia("(max-width: 768px)");
     const onChange = (e) => setIsMobile(e.matches);
@@ -52,30 +65,31 @@ export default function App() {
     return () => mq.removeEventListener("change", onChange);
   }, []);
 
-  // triggera lo scroll alla sezione corrente
+  // ✅ Scroll to current section (usando containerRef)
   useEffect(() => {
+    const container = containerRef.current;
     const el = document.getElementById(activeSections[currentSection]?.id);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth", block: "start" });
+    if (container && el) {
+      container.scrollTo({
+        top: el.offsetTop,
+        behavior: "smooth",
+      });
       if (currentSection === 1) setTimeout(() => ScrollTrigger?.refresh(), 400);
     }
   }, [currentSection, activeSections]);
 
-  // intercetta lo scroll
-  // intercetta lo scroll
+  // ✅ Intercetta scroll mouse/trackpad
   useEffect(() => {
     let lastScrollTime = 0;
-    const minDelta = 40; // soglia minima per considerare uno scroll "intenzionale"
-    const debounceTime = 800; // tempo minimo tra due scroll effettivi
+    const minDelta = 40;
+    const debounceTime = 1200;
 
     const handleWheel = (e) => {
       if (isMenuOpen) return;
       e.preventDefault();
 
       const now = performance.now();
-      if (now - lastScrollTime < debounceTime) return; // previene scroll doppi
-
-      // ignora scroll troppo piccoli (es. micro movimenti del trackpad)
+      if (now - lastScrollTime < debounceTime) return;
       if (Math.abs(e.deltaY) < minDelta) return;
 
       const direction = e.deltaY > 0 ? 1 : -1;
@@ -83,7 +97,7 @@ export default function App() {
 
       if (next >= 0 && next < activeSections.length) {
         setCurrentSection(next);
-        lastScrollTime = now; // registra il tempo dell'ultimo scroll valido
+        lastScrollTime = now;
       }
     };
 
@@ -91,7 +105,7 @@ export default function App() {
     return () => window.removeEventListener("wheel", handleWheel);
   }, [currentSection, activeSections, isMenuOpen]);
 
-  // swipe su mobile
+  // ✅ Swipe su mobile
   useEffect(() => {
     if (!isMobile) return;
 
@@ -128,8 +142,23 @@ export default function App() {
     };
   }, [currentSection, activeSections, isMobile, isMenuOpen]);
 
+  // ✅ Blocca scroll body quando menu aperto
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = "hidden";
+      document.body.style.touchAction = "none";
+    } else {
+      document.body.style.overflow = "";
+      document.body.style.touchAction = "";
+    }
+  }, [isMenuOpen]);
+
   return (
-    <div className="h-screen overflow-hidden relative">
+    <div
+      ref={containerRef}
+      className="relative overflow-y-scroll scroll-smooth snap-y snap-mandatory h-[calc(var(--vh)*100)]"
+    >
+      {/* Navbar */}
       <Navbar
         isMobile={isMobile}
         desktopSections={desktopSections}
@@ -140,6 +169,7 @@ export default function App() {
         setIsMenuOpen={setIsMenuOpen}
       />
 
+      {/* Indicatori mobile */}
       {isMobile && (
         <SectionIndicators
           activeSections={activeSections}
@@ -161,7 +191,7 @@ export default function App() {
         </div>
       )}
 
-      {/* Su mobile lo mostri solo nella prima sezione */}
+      {/* LOGO mobile solo nella prima sezione */}
       {isMobile && currentSection === 0 && (
         <div className="absolute top-1/2 left-1/2 z-[5] -translate-x-1/2 -translate-y-1/2 flex justify-center items-center">
           <motion.img
@@ -181,7 +211,7 @@ export default function App() {
           <section
             key={section.id}
             id={section.id}
-            className={`h-screen relative overflow-hidden ${
+            className={`h-[calc(var(--vh)*100)] snap-start relative overflow-hidden ${
               isBlack ? "bg-black text-white" : "bg-white text-black"
             }`}
           >
