@@ -31,6 +31,7 @@ export default function App() {
   const [isMobile, setIsMobile] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [currentSection, setCurrentSection] = useState(0);
+
   const scrollLockRef = useRef(false);
   const containerRef = useRef(null);
 
@@ -65,7 +66,7 @@ export default function App() {
     return () => mq.removeEventListener("change", onChange);
   }, []);
 
-  // ✅ Scroll to current section (usando containerRef)
+  // ✅ Scroll to current section
   useEffect(() => {
     const container = containerRef.current;
     const el = document.getElementById(activeSections[currentSection]?.id);
@@ -78,26 +79,24 @@ export default function App() {
     }
   }, [currentSection, activeSections]);
 
-  // ✅ Intercetta scroll mouse/trackpad
+  // ✅ Intercetta scroll mouse/trackpad con lock temporaneo
   useEffect(() => {
-    let lastScrollTime = 0;
     const minDelta = 40;
-    const debounceTime = 1200;
+    const lockDuration = 1200;
 
     const handleWheel = (e) => {
-      if (isMenuOpen) return;
+      if (isMenuOpen || scrollLockRef.current) return;
       e.preventDefault();
 
-      const now = performance.now();
-      if (now - lastScrollTime < debounceTime) return;
       if (Math.abs(e.deltaY) < minDelta) return;
 
       const direction = e.deltaY > 0 ? 1 : -1;
       const next = currentSection + direction;
 
       if (next >= 0 && next < activeSections.length) {
+        scrollLockRef.current = true;
         setCurrentSection(next);
-        lastScrollTime = now;
+        setTimeout(() => (scrollLockRef.current = false), lockDuration);
       }
     };
 
@@ -105,7 +104,7 @@ export default function App() {
     return () => window.removeEventListener("wheel", handleWheel);
   }, [currentSection, activeSections, isMenuOpen]);
 
-  // ✅ Swipe su mobile
+  // ✅ Swipe su mobile (con stesso lockRef)
   useEffect(() => {
     if (!isMobile) return;
 
@@ -116,8 +115,7 @@ export default function App() {
     const handleTouchStart = (e) => (startY = e.touches[0].clientY);
     const handleTouchMove = (e) => (endY = e.touches[0].clientY);
     const handleTouchEnd = () => {
-      if (isMenuOpen) return;
-      if (scrollLockRef.current) return;
+      if (isMenuOpen || scrollLockRef.current) return;
       const deltaY = startY - endY;
       if (Math.abs(deltaY) < threshold) return;
 
@@ -125,8 +123,8 @@ export default function App() {
       const next = currentSection + direction;
 
       if (next >= 0 && next < activeSections.length) {
-        setCurrentSection(next);
         scrollLockRef.current = true;
+        setCurrentSection(next);
         setTimeout(() => (scrollLockRef.current = false), 900);
       }
     };
@@ -178,7 +176,7 @@ export default function App() {
         />
       )}
 
-      {/* LOGO centrale */}
+      {/* LOGO desktop */}
       {!isMobile && (
         <div className="fixed top-1/2 left-1/2 z-[5] -translate-x-1/2 -translate-y-1/2 flex justify-center items-center pointer-events-none">
           <motion.img
