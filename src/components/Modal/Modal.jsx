@@ -23,8 +23,9 @@ const Modal = ({ isOpen, onClose, children }) => {
       onClick={onClose} // chiude cliccando sullo sfondo
     >
       <div
-        className="relative bg-white rounded-lg p-6 min-w-[300px] max-w-[90vw] sm:max-w-[50vw] max-h-[80vh] overflow-y-auto shadow-lg"
-        onClick={(e) => e.stopPropagation()} // evita chiusura se clicco dentro
+        className="relative bg-white rounded-lg p-6 min-w-[300px] max-w-[90vw] sm:max-w-[50vw] max-h-[80vh] overflow-y-auto shadow-lg" 
+        data-modal-scrollable
+        onClick={(e) => e.stopPropagation()}
       >
         {/* Bottone chiusura */}
         <button

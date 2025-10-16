@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import React, { useEffect, useRef, useState, useMemo } from "react";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
+import { useScroll } from "./hooks/useScroll";
 import Navbar from "./components/Navbar/Navbar";
 import {
   Home,
@@ -28,117 +27,15 @@ const mobileSections = [
 ];
 
 export default function App() {
-  const [isMobile, setIsMobile] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [currentSection, setCurrentSection] = useState(0);
 
-  const scrollLockRef = useRef(false);
-  const containerRef = useRef(null);
-
-  const activeSections = useMemo(
-    () => (isMobile ? mobileSections : desktopSections),
-    [isMobile]
-  );
-
-  // ✅ Fix viewport height per iOS (100vh dinamico)
-  useEffect(() => {
-    const setVh = () => {
-      document.documentElement.style.setProperty(
-        "--vh",
-        `${window.innerHeight * 0.01}px`
-      );
-    };
-    setVh();
-    window.addEventListener("resize", setVh);
-    window.addEventListener("orientationchange", setVh);
-    return () => {
-      window.removeEventListener("resize", setVh);
-      window.removeEventListener("orientationchange", setVh);
-    };
-  }, []);
-
-  // ✅ Detect mobile
-  useEffect(() => {
-    const mq = window.matchMedia("(max-width: 768px)");
-    const onChange = (e) => setIsMobile(e.matches);
-    setIsMobile(mq.matches);
-    mq.addEventListener("change", onChange);
-    return () => mq.removeEventListener("change", onChange);
-  }, []);
-
-  // ✅ Scroll to current section
-  useEffect(() => {
-    const container = containerRef.current;
-    const el = document.getElementById(activeSections[currentSection]?.id);
-    if (container && el) {
-      container.scrollTo({
-        top: el.offsetTop,
-        behavior: "smooth",
-      });
-      if (currentSection === 1) setTimeout(() => ScrollTrigger?.refresh(), 400);
-    }
-  }, [currentSection, activeSections]);
-
-  // ✅ Intercetta scroll mouse/trackpad con lock temporaneo
-  useEffect(() => {
-    const minDelta = 40;
-    const lockDuration = 1200;
-
-    const handleWheel = (e) => {
-      if (isMenuOpen || scrollLockRef.current) return;
-      e.preventDefault();
-
-      if (Math.abs(e.deltaY) < minDelta) return;
-
-      const direction = e.deltaY > 0 ? 1 : -1;
-      const next = currentSection + direction;
-
-      if (next >= 0 && next < activeSections.length) {
-        scrollLockRef.current = true;
-        setCurrentSection(next);
-        setTimeout(() => (scrollLockRef.current = false), lockDuration);
-      }
-    };
-
-    window.addEventListener("wheel", handleWheel, { passive: false });
-    return () => window.removeEventListener("wheel", handleWheel);
-  }, [currentSection, activeSections, isMenuOpen]);
-
-  // ✅ Swipe su mobile (con stesso lockRef)
-  useEffect(() => {
-    if (!isMobile) return;
-
-    let startY = 0;
-    let endY = 0;
-    const threshold = 60;
-
-    const handleTouchStart = (e) => (startY = e.touches[0].clientY);
-    const handleTouchMove = (e) => (endY = e.touches[0].clientY);
-    const handleTouchEnd = () => {
-      if (isMenuOpen || scrollLockRef.current) return;
-      const deltaY = startY - endY;
-      if (Math.abs(deltaY) < threshold) return;
-
-      const direction = deltaY > 0 ? 1 : -1;
-      const next = currentSection + direction;
-
-      if (next >= 0 && next < activeSections.length) {
-        scrollLockRef.current = true;
-        setCurrentSection(next);
-        setTimeout(() => (scrollLockRef.current = false), 900);
-      }
-    };
-
-    window.addEventListener("touchstart", handleTouchStart, { passive: false });
-    window.addEventListener("touchmove", handleTouchMove, { passive: false });
-    window.addEventListener("touchend", handleTouchEnd, { passive: false });
-
-    return () => {
-      window.removeEventListener("touchstart", handleTouchStart);
-      window.removeEventListener("touchmove", handleTouchMove);
-      window.removeEventListener("touchend", handleTouchEnd);
-    };
-  }, [currentSection, activeSections, isMobile, isMenuOpen]);
+  const {
+    isMobile,
+    currentSection,
+    setCurrentSection,
+    containerRef,
+    activeSections,
+  } = useScroll(desktopSections, mobileSections, isMenuOpen);
 
   // ✅ Blocca scroll body quando menu aperto
   useEffect(() => {
