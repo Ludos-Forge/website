@@ -4,7 +4,6 @@ import React, {
   useRef,
   useState,
   useMemo,
-  useCallback,
 } from "react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -90,7 +89,7 @@ export default function App() {
 
     window.addEventListener("wheel", handleWheel, { passive: false });
     return () => window.removeEventListener("wheel", handleWheel);
-  }, [currentSection, activeSections]);
+  }, [currentSection, activeSections, isMenuOpen]);
 
   // swipe su mobile
   useEffect(() => {
@@ -127,7 +126,7 @@ export default function App() {
       window.removeEventListener("touchmove", handleTouchMove);
       window.removeEventListener("touchend", handleTouchEnd);
     };
-  }, [currentSection, activeSections, isMobile]);
+  }, [currentSection, activeSections, isMobile, isMenuOpen]);
 
   return (
     <div className="h-screen overflow-hidden relative">
