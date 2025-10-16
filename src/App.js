@@ -1,11 +1,5 @@
 import { motion } from "framer-motion";
-import React, {
-  useEffect,
-  useRef,
-  useState,
-  useMemo,
-  useCallback,
-} from "react";
+import React, { useEffect, useRef, useState, useMemo } from "react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import Navbar from "./components/Navbar/Navbar";
@@ -28,44 +22,19 @@ const mobileSections = [
 ];
 
 export default function App() {
-  const [currentSection, setCurrentSection] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [currentSection, setCurrentSection] = useState(0);
 
   const containerRef = useRef(null);
-  const scrollLockRef = useRef(false);
 
+  // Sezioni attive
   const activeSections = useMemo(
     () => (isMobile ? mobileSections : desktopSections),
     [isMobile]
   );
 
-  // Scroll desktop
-  const handleWheel = useCallback(
-    (e) => {
-      if (isMobile) return;
-      e.preventDefault();
-      if (scrollLockRef.current) return;
-
-      const direction = e.deltaY > 0 ? 1 : -1;
-      const next = currentSection + direction;
-      const max = activeSections.length;
-
-      if (next >= 0 && next < max) {
-        setCurrentSection(next);
-        scrollLockRef.current = true;
-        setTimeout(() => (scrollLockRef.current = false), 900);
-      }
-    },
-    [activeSections, currentSection, isMobile]
-  );
-
-  useEffect(() => {
-    window.addEventListener("wheel", handleWheel, { passive: false });
-    return () => window.removeEventListener("wheel", handleWheel);
-  }, [handleWheel]);
-
-  // Detect mobile
+  // Rileva mobile
   useEffect(() => {
     const mq = window.matchMedia("(max-width: 768px)");
     const onChange = (e) => setIsMobile(e.matches);
@@ -74,70 +43,12 @@ export default function App() {
     return () => mq.removeEventListener("change", onChange);
   }, []);
 
-  // Scroll desktop
-  useEffect(() => {
-    const vh = window.visualViewport?.height || window.innerHeight;
-    containerRef.current.scrollTo({
-      top: vh * currentSection,
-      behavior: "smooth",
-    });
-    if (currentSection === 1) setTimeout(() => ScrollTrigger?.refresh(), 400);
-  }, [currentSection, isMobile]);
-
-  // Swipe mobile
-  useEffect(() => {
-    if (!isMobile || !containerRef.current) return;
-
-    let startY = 0;
-    let endY = 0;
-    const threshold = 60;
-
-    const handleTouchStart = (e) => {
-      startY = e.touches[0].clientY;
-    };
-
-    const handleTouchMove = (e) => {
-      endY = e.touches[0].clientY;
-    };
-
-    const handleTouchEnd = (e) => {
-      // Ignora swipe se viene da un carousel
-      if (
-        e.target.closest(".carousel") ||
-        e.target.closest(".swiper-container")
-      )
-        return;
-
-      const deltaY = startY - endY;
-      if (Math.abs(deltaY) < threshold || scrollLockRef.current) return;
-
-      const direction = deltaY > 0 ? 1 : -1;
-      const next = currentSection + direction;
-      const max = activeSections.length;
-
-      if (next >= 0 && next < max) {
-        setCurrentSection(next);
-        scrollLockRef.current = true;
-        setTimeout(() => (scrollLockRef.current = false), 900);
-      }
-    };
-
-    const el = containerRef.current;
-    el.addEventListener("touchstart", handleTouchStart, { passive: false });
-    el.addEventListener("touchmove", handleTouchMove, { passive: false });
-    el.addEventListener("touchend", handleTouchEnd, { passive: false });
-
-    return () => {
-      el.removeEventListener("touchstart", handleTouchStart);
-      el.removeEventListener("touchmove", handleTouchMove);
-      el.removeEventListener("touchend", handleTouchEnd);
-    };
-  }, [isMobile, currentSection, activeSections]);
+  // Aggiorna la sezione attuale quando l’utente scrolla manualmente
 
   return (
     <div
       ref={containerRef}
-      className="h-screen overflow-hidden [scroll-behavior:smooth]"
+      className="h-screen"
     >
       <Navbar
         isMobile={isMobile}
@@ -164,13 +75,14 @@ export default function App() {
         />
       </div>
 
+      {/* SEZIONI */}
       {activeSections.map((section, index) => {
         const isBlack = section.id === "mission" || section.id === "projects";
         return (
           <section
             key={section.id}
             id={section.id}
-            className={`h-screen relative overflow-hidden ${
+            className={`h-screen snap-start relative overflow-hidden ${
               isBlack ? "bg-black text-white" : "bg-white text-black"
             }`}
           >
@@ -194,7 +106,6 @@ export default function App() {
             {section.id === "projects" && (
               <Projects isMobile={isMobile} isBlack={isBlack} />
             )}
-
             {section.id === "team-projects" && (
               <>
                 <div className="absolute top-0 left-0 w-1/2 h-full bg-white z-0">
