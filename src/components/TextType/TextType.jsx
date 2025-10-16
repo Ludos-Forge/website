@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, createElement } from "react";
+import { useEffect, useRef, useState, createElement, Fragment } from "react";
 import { gsap } from "gsap";
 
 const TextType = ({
@@ -162,14 +162,17 @@ const TextType = ({
     const parts = displayedText.split(/(\s+)/);
     const filteredParts = parts.filter(part => !/^\s+$/.test(part));
     return filteredParts.map((part, idx) => {
-      const regex = new RegExp(`\\b${part}\\b`, 'i');
+      const regex = new RegExp(`\\b${part}\\b`, "i");
+      const key = `${idx}-${part}`;
       // Se è solo spazio, lo restituisco così com'è
       // Altrimenti applico colore alternato
       return (
-        <>
-          <span key={`${idx}`} style={{ color: getAlternatingColor(idx) }}>{(idx !== filteredParts.length - 1) ? part + "   " : part}</span>
+        <Fragment key={key}>
+          <span style={{ color: getAlternatingColor(idx) }}>
+            {(idx !== filteredParts.length - 1) ? part + "   " : part}
+          </span>
           {renderCursor(idx, regex.test(textArray[0]))}
-        </>
+        </Fragment>
       );
     });
   };

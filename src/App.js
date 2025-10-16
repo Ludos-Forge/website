@@ -12,7 +12,7 @@ import {
 } from "./components/Sections";
 
 import logo from "./assets/logo.png";
-import members from "./members.json";
+import members from "./members.js";
 
 const desktopSections = [
   { id: "home", label: "Home" },
@@ -180,7 +180,7 @@ export default function App() {
       {!isMobile && (
         <div className="fixed top-1/2 left-1/2 z-[5] -translate-x-1/2 -translate-y-1/2 flex justify-center items-center pointer-events-none">
           <motion.img
-            src={logo}
+            src={logo.src}
             alt="LudosForge Logo"
             animate={{ rotate: currentSection * 360 }}
             transition={{ duration: 1 }}
@@ -193,7 +193,7 @@ export default function App() {
       {isMobile && currentSection === 0 && (
         <div className="absolute top-1/2 left-1/2 z-[5] -translate-x-1/2 -translate-y-1/2 flex justify-center items-center">
           <motion.img
-            src={logo}
+            src={logo.src}
             alt="LudosForge Logo"
             animate={{ rotate: currentSection * 360 }}
             transition={{ duration: 1 }}

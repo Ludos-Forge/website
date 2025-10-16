@@ -1,4 +1,5 @@
 import { useState } from "react";
+import malwareCover from "../../assets/malware_city_cover.png";
 import { FaSteam, FaArrowUpRightFromSquare } from "react-icons/fa6";
 import Modal from "../Modal/Modal";
 
@@ -43,7 +44,7 @@ const items = [
     link: {
       steam: "https://store.steampowered.com/app/3650510/Malware_City/",
     },
-    background: "assets/malware_city_cover.png",
+    background: malwareCover.src || malwareCover,
   },
 ];
 
@@ -93,7 +94,7 @@ const ProjectTimeline = () => {
               alt={selectedProject.title}
               className="max-w-full rounded-lg shadow-md"
             />
-            <h1 className="text-2xl font-bold">{selectedProject.title}</h1>
+            <h1 className="text-2xl font-bold text-black">{selectedProject.title}</h1>
             <div className="text-gray-700 leading-relaxed space-y-3 text-left max-w-prose">
               {selectedProject.description}
             </div>
