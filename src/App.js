@@ -11,6 +11,8 @@ import {
 import logo from "./assets/logo.png";
 import members from "./members.js";
 import { useScroll } from "./hooks/useScroll";
+import ReactGA from "react-ga4";
+ReactGA.initialize("G-F1ZHM4DRV4");
 
 const desktopSections = [
   { id: "home", label: "Home" },
@@ -28,15 +30,10 @@ const mobileSections = [
 export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const {
-    containerRef,
-    isMobile,
-    sections,
-    activeIndex,
-    setActiveIndex,
-  } = useScroll(desktopSections, mobileSections, isMenuOpen, (index, section) =>
-    console.log("Section changed:", section.label)
-  );
+  const { containerRef, isMobile, sections, activeIndex, setActiveIndex } =
+    useScroll(desktopSections, mobileSections, isMenuOpen, (index, section) =>
+      console.log("Section changed:", section.label)
+    );
 
   // Blocca scroll del body se menu aperto
   useEffect(() => {
@@ -44,6 +41,9 @@ export default function App() {
     document.body.style.touchAction = isMenuOpen ? "none" : "";
   }, [isMenuOpen]);
 
+  useEffect(() => {
+    ReactGA.send({ hitType: "pageview", page: window.location.pathname });
+  }, []);
   return (
     <div
       ref={containerRef}
@@ -111,7 +111,11 @@ export default function App() {
             } ${isBlack ? "bg-black text-white" : "bg-white text-black"}`}
           >
             {section.id === "home" && (
-              <Home isMobile={isMobile} currentSection={activeIndex} index={idx} />
+              <Home
+                isMobile={isMobile}
+                currentSection={activeIndex}
+                index={idx}
+              />
             )}
             {section.id.includes("vision") && (
               <VisionMission
@@ -129,7 +133,11 @@ export default function App() {
             {section.id === "team-projects" && (
               <>
                 <div className="absolute top-0 left-0 w-1/2 h-full bg-white z-0">
-                  <Team isMobile={isMobile} isBlack={isBlack} members={members} />
+                  <Team
+                    isMobile={isMobile}
+                    isBlack={isBlack}
+                    members={members}
+                  />
                 </div>
                 <div className="absolute top-0 right-0 w-1/2 h-full bg-black z-0">
                   <Projects isMobile={isMobile} isBlack={!isBlack} />

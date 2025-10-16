@@ -23,6 +23,9 @@ importers:
       react-dom:
         specifier: 19.1.0
         version: 19.1.0(react@19.1.0)
+      react-ga4:
+        specifier: ^2.1.0
+        version: 2.1.0
       react-icons:
         specifier: ^5.5.0
         version: 5.5.0(react@19.1.0)
@@ -548,6 +551,9 @@ packages:
     peerDependencies:
       react: ^19.1.0
 
+  react-ga4@2.1.0:
+    resolution: {integrity: sha1-VmAfWdlcCEZuvW7fv43t5VxGePk=}
+
   react-icons@5.5.0:
     resolution: {integrity: sha1-iqJdNUP/hCMWhdMzEWTAApnN+vI=}
     peerDependencies:
@@ -981,6 +987,8 @@ snapshots:
     dependencies:
       react: 19.1.0
       scheduler: 0.26.0
+
+  react-ga4@2.1.0: {}
 
   react-icons@5.5.0(react@19.1.0):
     dependencies:
