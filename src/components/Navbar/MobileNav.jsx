@@ -1,5 +1,3 @@
-
-
 import React from "react";
 import { motion } from "framer-motion";
 import { FaEnvelope, FaSteam } from "react-icons/fa6";
@@ -34,8 +32,8 @@ export default function MobileNav({
                     <motion.button
                         key={section.id}
                         className={`relative text-3xl font-semibold tracking-wide px-6 py-2 rounded-md transition-all duration-200 ${isActive
-                            ? "bg-white text-black"
-                            : "text-white hover:bg-white/20"
+                                ? "bg-white text-black"
+                                : "text-white hover:bg-white/20"
                             }`}
                         onClick={() => {
                             setCurrentSection(idx);
@@ -50,35 +48,52 @@ export default function MobileNav({
                     </motion.button>
                 );
             })}
-            <div className="flex pointer-events-auto">
+
+            {/* --- Link Iubenda --- */}
+            <div className="flex flex-col items-center gap-4 mt-4">
+                <a
+                    href="https://www.iubenda.com/privacy-policy/25538444"
+                    className="iubenda-white iubenda-noiframe iubenda-embed text-white hover:underline font-semibold text-2xl"
+                    target="_blank"
+                    rel="noreferrer"
+                    title="Privacy Policy"
+                    onClick={(e) => e.stopPropagation()}
+                >
+                    Privacy Policy
+                </a>
+
+                <a
+                    href="https://www.iubenda.com/privacy-policy/25538444/cookie-policy"
+                    className="iubenda-white iubenda-noiframe iubenda-embed text-white hover:underline font-semibold text-2xl"
+                    target="_blank"
+                    rel="noreferrer"
+                    title="Cookie Policy"
+                    onClick={(e) => e.stopPropagation()}
+                >
+                    Cookie Policy
+                </a>
+            </div>
+
+            {/* --- Icone --- */}
+            <div className="flex pointer-events-auto gap-6 mt-6">
                 <a
                     href="https://store.steampowered.com/search/?developer=Ludos%20Forge"
                     target="_blank"
                     rel="noreferrer"
-                    key="steam"
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        e.nativeEvent.stopImmediatePropagation();
-                    }}
-                    className="relative inline text-3xl font-semibold tracking-wide px-6 py-2 rounded-md transition-all duration-200 
-               text-white hover:bg-white/20"
+                    className="text-3xl text-white hover:bg-white/20 rounded-md px-6 py-2 transition-all"
+                    onClick={(e) => e.stopPropagation()}
                 >
                     <FaSteam />
                 </a>
 
                 <a
                     href="mailto:contact@ludosforge.it"
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        e.nativeEvent.stopImmediatePropagation();
-                    }}
-                    className="relative inline text-3xl font-semibold tracking-wide px-6 py-2 rounded-md transition-all duration-200 
-               text-white hover:bg-white/20"
+                    className="text-3xl text-white hover:bg-white/20 rounded-md px-6 py-2 transition-all"
+                    onClick={(e) => e.stopPropagation()}
                 >
                     <FaEnvelope />
                 </a>
             </div>
         </motion.div>
-
     );
 }

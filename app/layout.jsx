@@ -64,6 +64,8 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {children}
+
+        <script type="text/javascript" src="https://embeds.iubenda.com/widgets/f7e19bb5-533f-4152-a740-95a0a35ff561.js"></script>
       </body>
     </html>
   );
