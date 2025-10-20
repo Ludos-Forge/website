@@ -5,6 +5,8 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true, // evita errori con next/image
   },
+  trailingSlash: true, // ⬅️ forza la generazione /link/index.html
+
 };
 
 export default nextConfig;

@@ -11,8 +11,7 @@ import {
 import logo from "./assets/logo.png";
 import members from "./members.js";
 import { useScroll } from "./hooks/useScroll";
-import ReactGA from "react-ga4";
-ReactGA.initialize("G-F1ZHM4DRV4");
+import { useAnalytics } from "./context/AnalyticsContext";
 
 const desktopSections = [
   { id: "home", label: "Home" },
@@ -41,9 +40,19 @@ export default function App() {
     document.body.style.touchAction = isMenuOpen ? "none" : "";
   }, [isMenuOpen]);
 
+  const analytics = useAnalytics();
+
   useEffect(() => {
-    ReactGA.send({ hitType: "pageview", page: window.location.pathname });
+    // send initial pageview
+    analytics.pageview();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    // send pageview on virtual section change (optional)
+    const path = window.location.pathname + `#${sections[activeIndex]?.id}`;
+    analytics.pageview(path);
+  }, [activeIndex, analytics, sections]);
   return (
     <div
       ref={containerRef}

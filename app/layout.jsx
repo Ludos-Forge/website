@@ -1,6 +1,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import React from "react";
 import "./globals.css";
+import { AnalyticsProvider } from "../src/context/AnalyticsContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -58,12 +59,15 @@ export const metadata = {
 export default function RootLayout({
   children,
 }) {
+  
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <AnalyticsProvider>
+          {children}
+        </AnalyticsProvider>
 
         <script type="text/javascript" src="https://embeds.iubenda.com/widgets/f7e19bb5-533f-4152-a740-95a0a35ff561.js"></script>
       </body>

@@ -4,9 +4,14 @@ import React from "react";
 import { FaInstagram, FaSteam, FaEnvelope, FaGlobe } from "react-icons/fa6";
 import logo from "../../assets/logo.png";
 import Image from "next/image";
+import { useEffect } from "react";
+import ReactGA from "react-ga4";
 
 
 const Link = () => {
+    useEffect(() => {
+        ReactGA.send({ hitType: "pageview", page: window.location.pathname });
+    }, []);
     return (
         <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black p-6 flex flex-col items-center">
             {/* Profile Section */}
