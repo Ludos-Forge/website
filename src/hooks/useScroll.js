@@ -100,15 +100,25 @@ export const useScroll = (
     const threshold = 60;
 
     const handleTouchStart = (e) => {
+      // Ignora touch su elementi interattivi o all'interno di modali scrollabili
       if (e.target.closest("[data-modal-scrollable]")) return;
+      if (e.target.closest("a") || e.target.closest("button")) return;
+      if (e.target.tagName.toLowerCase() === "a" || e.target.tagName.toLowerCase() === "button") return;
+      
       startY = e.touches[0].clientY;
     };
     const handleTouchMove = (e) => {
       if (e.target.closest("[data-modal-scrollable]")) return;
+      if (e.target.closest("a") || e.target.closest("button")) return;
+      if (e.target.tagName.toLowerCase() === "a" || e.target.tagName.toLowerCase() === "button") return;
+      
       endY = e.touches[0].clientY;
     };
     const handleTouchEnd = (e) => {
       if (e.target.closest("[data-modal-scrollable]")) return;
+      if (e.target.closest("a") || e.target.closest("button")) return;
+      if (e.target.tagName.toLowerCase() === "a" || e.target.tagName.toLowerCase() === "button") return;
+      
       const deltaY = startY - endY;
       if (Math.abs(deltaY) < threshold) return;
       nextSection(deltaY > 0 ? 1 : -1);

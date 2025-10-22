@@ -44,7 +44,8 @@ function Member({ member }) {
                 href={url}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center justify-center w-6 h-6 sm:w-5 sm:h-5 text-white hover:text-blue-400 transition-colors"
+                onClick={(e) => e.stopPropagation()}
+                className="inline-flex items-center justify-center w-8 h-8 sm:w-6 sm:h-6 text-white hover:text-blue-400 transition-colors p-1"
               >
                 <Icon className="w-full h-full" />
               </a>
