@@ -25,15 +25,9 @@ export const metadata = {
     follow: true,
   },
   icons: {
-    icon: [
-      { url: "/favicon.ico" },
-      { url: "/icon0.svg" },
-      { url: "/icon1.png" }
-    ],
-    apple: [
-      { url: "/apple-icon.png" }
-    ],
-    shortcut: ["/favicon.ico"],
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+    apple: "/apple-icon.png",
   },
   manifest: "/manifest.json",
   openGraph: {
@@ -59,7 +53,7 @@ export const metadata = {
 export default function RootLayout({
   children,
 }) {
-  
+
   return (
     <html lang="en">
       <body
